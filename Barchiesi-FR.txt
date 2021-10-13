@@ -1,0 +1,5 @@
+- The system shall provide research of a pub by location, style, ranking and cocktail offered.
+
+- The system shall show the table orderings in chronological order.
+
+- The system shall provide a drink ordering page.

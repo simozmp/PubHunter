@@ -1,0 +1,5 @@
+- As a logged user, I want to search a local by location, style*, ranking and cocktail* offert, so I can book a table.
+
+- As a restaurant owner, I want to read reviews about my restaurant, so I can improve its service.
+
+- As a bartender, I want to see the ordering, so I can prepare them.
