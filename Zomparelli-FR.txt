@@ -1,0 +1,13 @@
+· The system shall provide research of a drink by ingredients* and category*.
+
+· The system shall show performance statistics* relative to a bartender.
+
+· The system shall provide a reservation form*.
+	· The system shall:
+		· Send the reservation request to the restaurant owner, and
+		· Once the request has been accepted, send a confirmation e-mail to the user containing:
+			· reservation check-in hour
+			· restaurant address.
+
+
+Words marked with * are described in the "dictionary.txt" file.

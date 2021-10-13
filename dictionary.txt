@@ -1,0 +1,20 @@
+· The reservation form shall let the user specify:
+	· Check-in hour
+	· Number of diners
+	· Personal info (Name and telephone number)
+
+· Performance statistics are:
+	· Number of served drinks by the bartender;
+	· User reviews for drinks prepared by the bartender.
+
+· Categories: www.thecocktaildb.com/api/json/v1/1/list.php?c=list
+
+· Ingredients: www.thecocktaildb.com/api/json/v1/1/list.php?i=list
+
+· Restaurant style
+	Irish Pub
+	Modern
+	Classic
+	English Pub
+	German Pub
+	Hut (baita)

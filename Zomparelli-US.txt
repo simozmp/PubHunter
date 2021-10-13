@@ -1,0 +1,3 @@
+· As a user, I want to search for a cocktail by ingredients or style, so I can try a new cocktail.
+· As a restaurant owner, I want to see which tables have been booked, so I can prepare them.
+· As a bartender, I want to modify the disponibility of the ingredients, so I can edit the drinks availability.
