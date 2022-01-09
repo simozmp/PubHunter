@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane fx:id="root" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <StackPane>
+         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#eef2f7" height="100.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="300.0" />
+         <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="300.0" prefHeight="100.0">
+            <Text fx:id="sectionName" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: semi-bold; -fx-font-size: 24" text="Section" xmlns:fx="http://javafx.com/fxml/1" />
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+            <StackPane.margin>
+               <Insets />
+            </StackPane.margin>
+            <padding>
+               <Insets left="40.0" />
+            </padding>
+         </HBox>
+      </StackPane>
+   </center>
+   <bottom>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f7fafc" height="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="330.0" BorderPane.alignment="CENTER" />
+   </bottom>
+   <left>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#eef2f7" height="100.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="10.0" BorderPane.alignment="CENTER" />
+   </left>
+   <top>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f7fafc" height="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="330.0" BorderPane.alignment="CENTER" />
+   </top>
+</BorderPane>

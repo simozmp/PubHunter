@@ -1,0 +1,86 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+@font-face {
+    font-family: semi-bold;
+    src: url("inter/Inter-SemiBold.ttf");
+}
+
+@font-face {
+    font-family: regular;
+    src: url("inter/Inter-Regular.ttf");
+}
+
+@font-face {
+    font-family: light;
+    src: url("inter/Inter-Light.ttf");
+}
+
+@font-face {
+    font-family: bold;
+    src: url("inter/Inter-Bold.ttf");
+}
+
+.navbar-button {
+    -fx-background-color: transparent;
+    -fx-font-family: semi-bold;
+    -fx-text-fill: #4A5568;
+    -fx-font-size: 18px;
+}
+
+.accent-button {
+    -fx-background-color: #3182CE;
+    -fx-font-family: regular;
+    -fx-text-fill: #F7FAFC;
+}
+
+.dark-text {
+    -fx-fill: #4A5568;
+}
+
+.light-text {
+    -fx-fill: #F7FAFC;
+}
+
+.container {
+    -fx-fill: #F7FAFC;
+    -fx-arc-height: 30;
+    -fx-arc-width: 30;
+    -fx-stroke: transparent;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 0);
+}
+
+.menu-view-container {
+    -fx-fill: #F7FAFC;
+    -fx-arc-height: 30;
+    -fx-arc-width: 30;
+    -fx-stroke: transparent;
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, -1, -1);
+}
+
+.split-pane:horizontal > .split-pane-divider {
+    -fx-padding: 0 0.5 0 0.5;
+    -fx-background-color: #5C5E61;
+}
+
+.list-cell:selected {
+    -fx-padding: 0;
+    -fx-background-color: #EEF2F7;
+}
+
+.list-cell {
+    -fx-padding: 0;
+    -fx-background-color: #EEF2F7;
+}
+
+.list-cell:empty {
+    -fx-background-color: #F7FAFC;
+
+}
+
+.divider_line {
+    -fx-stroke: #E2E8F0;
+}
+
+.list-view {
+    -fx-background-color: transparent;
+}

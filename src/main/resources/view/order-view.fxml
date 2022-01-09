@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
+
+<Pane prefHeight="1024.0" style="-fx-background-color: #FFFFFF" xmlns="http://javafx.com/javafx/16"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.OrderViewController">
+
+   <stylesheets>
+      <URL value="@application.css"/>
+   </stylesheets>
+
+   <VBox fx:id="outerVBox" prefHeight="1024.0" xmlns:fx="http://javafx.com/fxml">
+      <HBox fx:id="navbarHBox" alignment="CENTER" maxHeight="104.0" prefHeight="104.0"
+            xmlns:fx="http://javafx.com/fxml">
+         <opaqueInsets>
+            <Insets/>
+         </opaqueInsets>
+         <WebView fx:id="logoWebView" maxHeight="70.0" maxWidth="260.0" minHeight="70.0" minWidth="260.0"
+                  prefHeight="70.0" prefWidth="260.0" xmlns:fx="http://javafx.com/fxml">
+            <HBox.margin>
+               <Insets left="20.0"/>
+            </HBox.margin>
+         </WebView>
+         <HBox alignment="CENTER" maxHeight="104.0" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+            <opaqueInsets>
+               <Insets/>
+            </opaqueInsets>
+            <Button fx:id="navBarMenuBtn" maxHeight="104.0" minHeight="104.0" mnemonicParsing="false"
+                    prefHeight="104.0" prefWidth="194.0" styleClass="navbar-button" text="Menu"
+                    xmlns:fx="http://javafx.com/fxml/1">
+               <HBox.margin>
+                  <Insets/>
+               </HBox.margin>
+               <opaqueInsets>
+                  <Insets/>
+               </opaqueInsets>
+            </Button>
+            <Button maxHeight="104.0" minHeight="104.0" mnemonicParsing="false" prefHeight="104.0"
+                    prefWidth="194.0" styleClass="navbar-button" text="Review">
+               <font>
+                  <Font size="18.0"/>
+               </font>
+               <opaqueInsets>
+                  <Insets/>
+               </opaqueInsets>
+            </Button>
+            <Button maxHeight="104.0" minHeight="104.0" mnemonicParsing="false" prefHeight="104.0"
+                    prefWidth="194.0" styleClass="navbar-button" text="Contact">
+               <font>
+                  <Font size="18.0"/>
+               </font>
+               <opaqueInsets>
+                  <Insets/>
+               </opaqueInsets>
+            </Button>
+            <Button maxHeight="104.0" minHeight="104.0" mnemonicParsing="false" prefHeight="104.0"
+                    prefWidth="194.0" styleClass="navbar-button" text="Help">
+               <font>
+                  <Font size="18.0"/>
+               </font>
+               <opaqueInsets>
+                  <Insets/>
+               </opaqueInsets>
+            </Button>
+         </HBox>
+         <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS"/>
+         <HBox prefHeight="104.0" prefWidth="200.0">
+            <Button maxHeight="104.0" minHeight="104.0" mnemonicParsing="false" prefHeight="104.0"
+                    prefWidth="194.0" styleClass="navbar-button" text="Account">
+               <font>
+                  <Font size="18.0"/>
+               </font>
+               <opaqueInsets>
+                  <Insets/>
+               </opaqueInsets>
+            </Button>
+         </HBox>
+      </HBox>
+      <Line fx:id="navbarDividerLine" endX="1440.0" endY="104.0" startY="104.0" styleClass="divider_line"
+            xmlns:fx="http://javafx.com/fxml"/>
+      <StackPane VBox.vgrow="ALWAYS">
+         <VBox.margin>
+            <Insets/>
+         </VBox.margin>
+         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="772.0" stroke="BLACK"
+                    strokeType="INSIDE" styleClass="container" width="1320.0"/>
+         <HBox alignment="CENTER">
+            <padding>
+               <Insets bottom="100.0" left="100.0" right="100.0" top="100.0"/>
+            </padding>
+            <SplitPane styleClass="menu-view-container" dividerPositions="0.2862903226" minHeight="720.0"
+                       prefWidth="1240.0">
+               <opaqueInsets>
+                  <Insets/>
+               </opaqueInsets>
+               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                  <ListView fx:id="sectionListView" AnchorPane.bottomAnchor="0.0"
+                            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                            AnchorPane.topAnchor="0.0"/>
+               </AnchorPane>
+               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="320.0">
+                  <ListView fx:id="dishesListView" AnchorPane.bottomAnchor="0.0"
+                            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                            AnchorPane.topAnchor="0.0"/>
+               </AnchorPane>
+            </SplitPane>
+         </HBox>
+      </StackPane>
+   </VBox>
+</Pane>
