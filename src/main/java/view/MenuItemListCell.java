@@ -1,6 +1,6 @@
 package view;
 
-import logic.Dish;
+import logic.bean.MenuItemBean;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -16,25 +16,30 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class DishListViewCell extends ListCell<Dish> {
+public class MenuItemListCell extends ListCell<MenuItemBean> {
     @FXML private StackPane root;
     @FXML private WebView infoWebView;
     @FXML private Text nameText;
     @FXML private Text ingredientsText;
-    @FXML private Button tag1;
-    @FXML private Button tag2;
-    @FXML private Button tag3;
+    @FXML private Button tag1Btn;
+    @FXML private Button tag2Btn;
+    @FXML private Button tag3Btn;
     @FXML private Text priceText;
     @FXML private Button minusButton;
     @FXML private Text countText;
     @FXML private Button plusButton;
 
     private FXMLLoader mLLoader;
+    private OrderViewController viewController;
 
     private int count = 0;
 
+    public MenuItemListCell(OrderViewController viewController) {
+        this.viewController = viewController;
+    }
+
     @Override
-    protected void updateItem(Dish dish, boolean empty) {
+    protected void updateItem(MenuItemBean dish, boolean empty) {
 
         WebEngine infoWebEngine;
 
@@ -43,7 +48,7 @@ public class DishListViewCell extends ListCell<Dish> {
         if(dish != null && !empty) {
 
             if (mLLoader == null) {
-                mLLoader = new FXMLLoader(getClass().getResource("menu-list-cell.fxml"));
+                mLLoader = new FXMLLoader(getClass().getResource("menu-item-list-cell.fxml"));
                 mLLoader.setController(this);
 
                 try {
@@ -54,7 +59,7 @@ public class DishListViewCell extends ListCell<Dish> {
             }
 
             this.nameText.setText(dish.getName());
-            this.ingredientsText.setText(dish.getIngredients());
+            this.ingredientsText.setText(dish.getDescription());
             this.priceText.setText("€ " + new DecimalFormat("#.00#").format(dish.getPrice()));
 
             infoWebEngine = infoWebView.getEngine();
@@ -64,27 +69,24 @@ public class DishListViewCell extends ListCell<Dish> {
             int i;
 
             ArrayList<Button> tags = new ArrayList<>();
-            tags.add(tag1);
-            tags.add(tag2);
-            tags.add(tag3);
+            tags.add(tag1Btn);
+            tags.add(tag2Btn);
+            tags.add(tag3Btn);
 
-            for (i = 0; i < dish.getTagCount(); i++)
+            for (i=0; i < dish.getTagCount(); i++) {
                 tags.get(i).setText(dish.getTag(i));
-
-            minusButton.setOnMouseClicked(mouseEvent -> {
-                if(count>0) {
-                    count = count - 1;
-                    //  TODO: Remove dish to order
-                    countText.setText(Integer.toString(count));
-                }
-            });
+                tags.get(i).setVisible(true);
+            }
 
             countText.setText(Integer.toString(count));
 
-            plusButton.setOnMouseClicked(mouseEvent -> {
-                count = count + 1;
-                //  TODO: Add dish to order
-                countText.setText(Integer.toString(count));
+            minusButton.setOnMouseClicked(mouseEvent -> {
+                this.updateSelected(true);
+                viewController.onMinusButton();
+            });
+            plusButton.setOnMouseClicked(mouseEvent ->  {
+                this.updateSelected(true);
+                viewController.onPlusButton();
             });
 
             this.setGraphic(root);

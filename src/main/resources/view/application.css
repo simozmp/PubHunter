@@ -57,9 +57,30 @@
     -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, -1, -1);
 }
 
+.menu-section-list-cell {
+    -fx-fill: #EEF2F7;
+}
+
+.section-accent-fill {
+    -fx-fill: #EEF2F7;
+}
+.section-accent-fill-selected {
+    -fx-fill: #3182CE;
+}
+
+.menu-section-list-cell-selected {
+    -fx-fill: #D1E3F3;
+}
+
 .split-pane:horizontal > .split-pane-divider {
     -fx-padding: 0 0.5 0 0.5;
     -fx-background-color: #5C5E61;
+}
+.tag-btn {
+    -fx-background-color: #FDE68A;
+    -fx-background-radius: 20;
+    -fx-border-radius: 10;
+    -fx-font-size: 10;
 }
 
 .list-cell:selected {
@@ -77,10 +98,10 @@
 
 }
 
-.divider_line {
+.divider-line {
     -fx-stroke: #E2E8F0;
 }
 
 .list-view {
-    -fx-background-color: transparent;
+    -fx-background-color: #F7FAFC;
 }

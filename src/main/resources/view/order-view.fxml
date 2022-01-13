@@ -82,7 +82,7 @@
             </Button>
          </HBox>
       </HBox>
-      <Line fx:id="navbarDividerLine" endX="1440.0" endY="104.0" startY="104.0" styleClass="divider_line"
+      <Line fx:id="navbarDividerLine" endX="1440.0" endY="104.0" startY="104.0" styleClass="divider-line"
             xmlns:fx="http://javafx.com/fxml"/>
       <StackPane VBox.vgrow="ALWAYS">
          <VBox.margin>
@@ -105,7 +105,7 @@
                             AnchorPane.topAnchor="0.0"/>
                </AnchorPane>
                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="320.0">
-                  <ListView fx:id="dishesListView" AnchorPane.bottomAnchor="0.0"
+                  <ListView fx:id="menuItemsListView" styleClass="rear-background" AnchorPane.bottomAnchor="0.0"
                             AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                             AnchorPane.topAnchor="0.0"/>
                </AnchorPane>

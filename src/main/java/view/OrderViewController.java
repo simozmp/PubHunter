@@ -1,9 +1,8 @@
 package view;
 
-import logic.Dish;
+import logic.bean.MenuItemBean;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Objects;
 
 import javafx.collections.FXCollections;
@@ -18,6 +17,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import logic.exception.LogicException;
+import logic.OrderController;
 
 public class OrderViewController {
 
@@ -28,14 +29,17 @@ public class OrderViewController {
     @FXML private Line navbarDividerLine;
     @FXML private WebView logoWebView;
     @FXML private Button navBarMenuBtn;
-    @FXML private ListView<Dish> dishesListView;
+    @FXML private ListView<MenuItemBean> menuItemsListView;
     @FXML private ListView<String> sectionListView;
+
+    private ObservableList<MenuItemBean> menuItemsObservableList;
+    private ObservableList<MenuItemBean> entireMenuObservableList;
+    private ObservableList<String> sectionObservableList;
+
+    private OrderController useCaseController;
 
     @FXML
     private void initialize() {
-
-        ObservableList<Dish> dishObservableList;
-        ObservableList<String> sectionObservableList;
 
         WebEngine logoWebEngine;
 
@@ -45,36 +49,66 @@ public class OrderViewController {
         URL url1 = getClass().getResource("Logo.svg");
         logoWebEngine.load(Objects.requireNonNull(url1).toExternalForm());
 
-        dishObservableList = FXCollections.observableArrayList();
 
-        ArrayList<String> tags1 = new ArrayList<>();
-        tags1.add(commonStyle);
-        tags1.add("Cool ;)");
-        dishObservableList.add(new Dish("Mojito", "Rum, lime, sugar, mint, soda water", 7, tags1));
+        entireMenuObservableList = FXCollections.observableArrayList();
 
-        ArrayList<String> tags2 = new ArrayList<>();
-        tags2.add(commonStyle);
-        tags2.add("Cooler ;)");
-        dishObservableList.add(new Dish("Gin Fizz", "Gin, lemon, sugar, carbonated water", 4,  tags2));
-
-        ArrayList<String> tags3 = new ArrayList<>();
-        tags3.add(commonStyle);
-        tags3.add("Coolest ;)");
-        dishObservableList.add(new Dish("Long Island Tea", "Rum, lime, sugar, mint, soda water", 10, tags3));
-
-        dishesListView.setItems(dishObservableList);
-        dishesListView.setCellFactory(listView -> new DishListViewCell());
+        menuItemsObservableList = FXCollections.observableArrayList();
+        menuItemsListView.setItems(menuItemsObservableList);
+        menuItemsListView.setCellFactory(listView -> new MenuItemListCell(this));
 
 
         sectionObservableList = FXCollections.observableArrayList();
-        sectionObservableList.addAll("Beverage",
-                "Drink",
-                "Appetizers",
-                "Meals",
-                "Fish",
-                "Liquors");
-
         sectionListView.setItems(sectionObservableList);
-        sectionListView.setCellFactory(listView -> new SectionListViewCell());
+        sectionListView.setCellFactory(listView -> new SectionListCellController());
+        sectionListView.setOnMouseClicked(mouseEvent -> switchSection());
+    }
+
+    public void setMenu(MenuItemBean[] menuItems) {
+        entireMenuObservableList.addAll(menuItems);
+        updateSections();
+    }
+
+    private void updateSections() {
+        for (MenuItemBean dishBean : entireMenuObservableList)
+            if (!sectionObservableList.contains(dishBean.getCategory()))
+                sectionObservableList.add(dishBean.getCategory());
+    }
+
+    @FXML
+    public void switchSection() {
+        String category = sectionListView.getSelectionModel().getSelectedItem();
+        showDishesByCategory(category);
+    }
+
+    private void showDishesByCategory(String category) {
+        menuItemsObservableList.clear();
+
+        for (MenuItemBean dishBean : entireMenuObservableList)
+            if (dishBean.getCategory() == category)
+                menuItemsObservableList.add(dishBean);
+    }
+
+    public void bindController(OrderController controller) throws LogicException {
+        if(this.useCaseController == null)
+            useCaseController = controller;
+        else
+            throw new LogicException("Controller already registered on view!");
+    }
+
+    public void onPlusButton() {
+        try {
+            useCaseController.addToOrdering(menuItemsListView.getSelectionModel().getSelectedItem());
+        } catch(LogicException e) {
+            this.showError(e.getMessage());
+        }
+    }
+
+    public void onMinusButton() {
+
+    }
+
+    private void showError(String message) {
+        // TODO: IMPLEMENT VISUAL ERROR FEEDBACK
+        System.out.println("Error: " + message);
     }
 }

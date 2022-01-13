@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
+
+<StackPane fx:id="root" style="-fx-background-color: #F7FAFC" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#EEF2F7" height="200.0" strokeType="INSIDE" style="    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 5);" width="830.0" />
+   <BorderPane>
+      <center>
+         <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="630.0" prefHeight="200.0" prefWidth="830.0">
+            <Canvas fx:id="canvas" height="160.0" width="160.0" xmlns:fx="http://javafx.com/fxml/1">
+               <HBox.margin>
+                  <Insets bottom="20.0" left="30.0" right="40.0" top="20.0" />
+               </HBox.margin>
+            </Canvas>
+            <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="300.0" HBox.hgrow="SOMETIMES">
+               <HBox.margin>
+                  <Insets bottom="20.0" top="20.0" />
+               </HBox.margin>
+               <HBox alignment="CENTER_LEFT" prefHeight="10.0" prefWidth="10.0">
+                  <WebView fx:id="infoWebView" maxHeight="22.0" maxWidth="22.0" minHeight="22.0" minWidth="22.0" prefHeight="22.0" prefWidth="22.0" xmlns:fx="http://javafx.com/fxml/1">
+                     <HBox.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </HBox.margin>
+                  </WebView>
+                  <Text fx:id="nameText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="dark-text" text="Dish name" xmlns:fx="http://javafx.com/fxml/1">
+                     <HBox.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <HBox alignment="CENTER" spacing="5.0">
+                     <children>
+                        <Button fx:id="tag1Btn" mnemonicParsing="false" styleClass="tag-btn" text="Tag1" visible="false" />
+                        <Button fx:id="tag2Btn" mnemonicParsing="false" styleClass="tag-btn" text="Tag2" visible="false" />
+                        <Button fx:id="tag3Btn" mnemonicParsing="false" styleClass="tag-btn" text="Tag3" visible="false" />
+                     </children>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </HBox>
+               </HBox>
+               <Text fx:id="ingredientsText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="dark-text" text="Ingredient1, Ingredient 2.." xmlns:fx="http://javafx.com/fxml/1">
+                  <font>
+                     <Font size="16.0" />
+                  </font>
+                  <VBox.margin>
+                     <Insets bottom="10.0" top="10.0" />
+                  </VBox.margin>
+               </Text>
+               <Text fx:id="priceText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="dark-text" text="€ TOT" xmlns:fx="http://javafx.com/fxml/1">
+                  <font>
+                     <Font size="24.0" />
+                  </font>
+                  <VBox.margin>
+                     <Insets bottom="20.0" top="10.0" />
+                  </VBox.margin>
+               </Text>
+            </VBox>
+            <VBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="NEVER">
+               <HBox alignment="CENTER" prefHeight="70.0" prefWidth="200.0" spacing="13.0">
+                  <Button fx:id="minusButton" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" style="-fx-font-size:18" styleClass="accent-button" text="─" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS" xmlns:fx="http://javafx.com/fxml/1" />
+                  <Text fx:id="countText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="dark-text" text="#" xmlns:fx="http://javafx.com/fxml/1">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Button fx:id="plusButton" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" style="-fx-font-size:18" styleClass="accent-button" text="+" xmlns:fx="http://javafx.com/fxml/1" />
+               </HBox>
+            </VBox>
+         </HBox>
+      </center>
+      <top>
+         <Pane prefHeight="10.0" BorderPane.alignment="CENTER" />
+      </top>
+      <bottom>
+         <Pane prefHeight="10.0" BorderPane.alignment="CENTER" />
+      </bottom>
+      <right>
+         <Pane prefWidth="20.0" BorderPane.alignment="CENTER" />
+      </right>
+      <left>
+         <Pane prefWidth="20.0" BorderPane.alignment="CENTER" />
+      </left>
+   </BorderPane>
+</StackPane>
