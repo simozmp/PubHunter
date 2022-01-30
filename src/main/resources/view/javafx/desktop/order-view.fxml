@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
+
+<Pane prefHeight="1024.0" style="-fx-background-color: #FFFFFF" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.javafx.desktop.DesktopOrderController">
+
+   <stylesheets>
+      <URL value="@application.css" />
+   </stylesheets>
+
+   <VBox fx:id="outerVBox" alignment="TOP_CENTER" prefHeight="1024.0" xmlns:fx="http://javafx.com/fxml">
+      <HBox fx:id="navbarHBox" alignment="CENTER" maxHeight="104.0" prefHeight="104.0" xmlns:fx="http://javafx.com/fxml">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <WebView fx:id="logoWebView" maxHeight="70.0" maxWidth="260.0" minHeight="70.0" minWidth="260.0" prefHeight="70.0" prefWidth="260.0" xmlns:fx="http://javafx.com/fxml">
+            <HBox.margin>
+               <Insets left="20.0" />
+            </HBox.margin>
+         </WebView>
+         <HBox alignment="CENTER" maxHeight="104.0" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+            <Button fx:id="navBarMenuBtn" maxHeight="104.0" minHeight="104.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="194.0" styleClass="navbar-button" text="Menu" xmlns:fx="http://javafx.com/fxml/1">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <Button maxHeight="104.0" minHeight="104.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="194.0" styleClass="navbar-button" text="Review">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <Button maxHeight="104.0" minHeight="104.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="194.0" styleClass="navbar-button" text="Contact">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <Button maxHeight="104.0" minHeight="104.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="194.0" styleClass="navbar-button" text="Help">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+         </HBox>
+         <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+         <HBox prefHeight="104.0" prefWidth="200.0">
+            <Button maxHeight="104.0" minHeight="104.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="194.0" styleClass="navbar-button" text="Account">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+         </HBox>
+      </HBox>
+      <Line fx:id="navbarDividerLine" endX="1440.0" endY="104.0" startY="104.0" styleClass="divider-line" />
+      <BorderPane VBox.vgrow="ALWAYS">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <center>
+            <StackPane maxHeight="772.0" maxWidth="1320.0" minHeight="772.0" minWidth="1320.0" prefHeight="772.0" prefWidth="1320.0" BorderPane.alignment="CENTER">
+      
+               <!-- Container -->
+               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="772.0" stroke="BLACK" strokeType="INSIDE" styleClass="container" width="1320.0" />
+
+               <!-- Confirm order section -->
+               <HBox fx:id="confirmOrderParent" alignment="CENTER" disable="true" maxHeight="772.0" maxWidth="1320.0" minHeight="772.0" minWidth="1320.0" prefHeight="772.0" prefWidth="1320.0" visible="false">
+                  <padding>
+                     <Insets bottom="100.0" left="100.0" right="100.0" top="100.0" />
+                  </padding>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1240.0" minHeight="-Infinity" prefHeight="720.0" prefWidth="1240.0" HBox.hgrow="ALWAYS">
+                     <VBox maxHeight="720.0" prefHeight="720.0" prefWidth="1240.0" spacing="30.0">
+                        <padding>
+                           <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                        </padding>
+                        <HBox alignment="CENTER_LEFT" spacing="20.0">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <Button fx:id="backToMenuButton" onMouseClicked="#onBackToMenuButton" prefHeight="40.0" prefWidth="40.0" style="-fx-background-radius: 5" styleClass="accent-button" />
+                           <Label style="-fx-font-size: 18" styleClass="dark-label" text="Back to menu" />
+                        </HBox>
+                        <ListView fx:id="orderingListView" maxHeight="500.0" prefHeight="500.0" prefWidth="200.0" />
+                     </VBox>
+                     <Line fx:id="confirmOrderingDividerLine" endX="1240.0" endY="104.0" startY="104.0" styleClass="divider-line" />
+                     <HBox alignment="CENTER">
+                        <Button fx:id="sendOrderButton" minHeight="60.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" styleClass="accent-button" text="Send order" />
+                        <VBox.margin>
+                           <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                        </VBox.margin>
+                     </HBox>
+                  </VBox>
+               </HBox>
+
+               <VBox fx:id="orderSectionParent" alignment="TOP_CENTER" spacing="20.0">
+                  <padding>
+                     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                  </padding>
+                  <Label fx:id="containerLabel" style="-fx-font-family: bold; -fx-font-size: 18" styleClass="dark-label" text="Label" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+
+                  <!-- Order section -->
+                  <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1240.0" minWidth="1240.0" prefWidth="1240.0" VBox.vgrow="ALWAYS">
+                     <StackPane maxHeight="1.7976931348623157E308">
+                        <SplitPane dividerPositions="0.2862903226" maxHeight="1.7976931348623157E308" prefWidth="1240.0" styleClass="menu-view-container">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                              <ListView fx:id="sectionListView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </AnchorPane>
+                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="320.0">
+                              <ListView fx:id="menuItemListView" styleClass="rear-background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </AnchorPane>
+                        </SplitPane>
+                        <StackPane alignment="BOTTOM_RIGHT" maxHeight="110.0" maxWidth="110.0" minHeight="110.0" minWidth="110.0" prefHeight="110.0" prefWidth="110.0" StackPane.alignment="BOTTOM_RIGHT">
+                           <StackPane.margin>
+                              <Insets />
+                           </StackPane.margin>
+                           <Button fx:id="reviewOrderingButton" maxHeight="70.0" maxWidth="70.0" minHeight="70.0" minWidth="70.0" onMouseClicked="#onReviewOrderingButton" prefHeight="70.0" prefWidth="70.0" style="-fx-background-radius: 10" styleClass="accent-button" StackPane.alignment="BOTTOM_RIGHT">
+                              <StackPane.margin>
+                                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                              </StackPane.margin>
+                           </Button>
+                           <Button fx:id="orderingCountButton" maxHeight="26.0" maxWidth="26.0" minHeight="26.0" minWidth="26.0" prefHeight="26.0" prefWidth="26.0" styleClass="accent-counter-button" StackPane.alignment="TOP_RIGHT">
+                              <StackPane.margin>
+                                 <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                              </StackPane.margin>
+                           </Button>
+                        </StackPane>
+                     </StackPane>
+                  </HBox>
+               </VBox>
+      
+            </StackPane>
+         </center>
+      </BorderPane>
+   </VBox>
+</Pane>
