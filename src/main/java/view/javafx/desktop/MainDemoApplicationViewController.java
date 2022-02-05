@@ -13,7 +13,7 @@ import javax.mail.internet.AddressException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class MainDemoApplicationController {
+public class MainDemoApplicationViewController {
 
     @FXML AnchorPane root;
     @FXML TextArea consoleTextArea;

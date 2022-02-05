@@ -6,6 +6,6 @@ import logic.bean.ProductRequestBean;
 public class TableServiceListCell extends ListCell<ProductRequestBean> {
 
     // TODO: IMPLEMENT
-    public TableServiceListCell(DesktopWorkspaceController desktopWorkspaceController) {
+    public TableServiceListCell(DesktopWorkspaceViewController desktopWorkspaceController) {
     }
 }

@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class DesktopOrderApplication extends Application {
 
-    private DesktopOrderController controller;
+    private DesktopOrderViewController controller;
 
     public DesktopOrderApplication() {
         start(new Stage());
@@ -46,7 +46,7 @@ public class DesktopOrderApplication extends Application {
         primaryStage.show();
     }
 
-    public DesktopOrderController getController() {
+    public DesktopOrderViewController getController() {
         return controller;
     }
 }

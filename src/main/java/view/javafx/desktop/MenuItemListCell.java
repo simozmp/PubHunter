@@ -33,11 +33,11 @@ public class MenuItemListCell extends ListCell<MenuItemBean> {
     @FXML private Text notAvailableLabel;
 
     private FXMLLoader fxmlLoader;
-    private DesktopOrderController viewController;
+    private DesktopOrderViewController viewController;
 
     private int count;
 
-    public MenuItemListCell(DesktopOrderController viewController) {
+    public MenuItemListCell(DesktopOrderViewController viewController) {
         this.viewController = viewController;
     }
 

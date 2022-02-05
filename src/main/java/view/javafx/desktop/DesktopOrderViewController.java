@@ -22,12 +22,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import logic.bean.OrderingLineBean;
 import logic.bean.TableServiceBean;
 import logic.exception.LogicException;
 import logic.controller.OrderController;
 import view.OrderViewController;
 
-public class DesktopOrderController implements OrderViewController {
+public class DesktopOrderViewController implements OrderViewController {
 
     @FXML private Pane outerPane;
     @FXML private Scene outerScene;
@@ -40,7 +41,7 @@ public class DesktopOrderController implements OrderViewController {
     @FXML private Button backToMenuButton;
     @FXML private ListView<MenuItemBean> menuItemListView;
     @FXML private ListView<String> sectionListView;
-    @FXML private ListView<MenuItemBean> orderingListView;
+    @FXML private ListView<OrderingLineBean> orderingListView;
     @FXML private Button orderingCountButton;
     @FXML private Label containerLabel;
     @FXML private Button sendOrderButton;
@@ -52,7 +53,7 @@ public class DesktopOrderController implements OrderViewController {
     private TableServiceBean serviceBean;
     private ObservableList<MenuItemBean> menuItemsObservableList;
     private ObservableList<MenuItemBean> entireMenuObservableList;
-    private ObservableList<MenuItemBean> orderedItemsObservableList;
+    private ObservableList<OrderingLineBean> orderingLinesObservableList;
     private ObservableList<String> sectionObservableList;
 
     private OrderController useCaseController;
@@ -72,18 +73,18 @@ public class DesktopOrderController implements OrderViewController {
                 new ImageView(new Image(getClass().getResource("left-arrow.png").toExternalForm())));
 
         //  Setting up an observable list for ordered items
-        orderedItemsObservableList = FXCollections.observableArrayList();
-        orderingListView.setItems(orderedItemsObservableList);
+        orderingLinesObservableList = FXCollections.observableArrayList();
+        orderingListView.setItems(orderingLinesObservableList);
         orderingListView.setFixedCellSize(-1);
-        orderingListView.setCellFactory(listview -> new OrderingItemListCell(this));
+        orderingListView.setCellFactory(listview -> new OrderingLineListCell(this));
         orderingListView.setSelectionModel(new NoSelectionModel());
 
         //  Setting up the item counter button for the ordering
         orderingCountButton.setText("0");
         orderingCountButton.setVisible(false);
         //      The following listener will update the latter button to be consistent with data change
-        orderedItemsObservableList.addListener(
-                (ListChangeListener<? super MenuItemBean>) orderObservableListChange -> updateOrderingCountButton());
+        orderingLinesObservableList.addListener(
+                (ListChangeListener<? super OrderingLineBean>) orderObservableListChange -> updateOrderingCountButton());
 
         entireMenuObservableList = FXCollections.observableArrayList();
 
@@ -110,9 +111,14 @@ public class DesktopOrderController implements OrderViewController {
             throw new LogicException("Controller already registered on view!");
     }
 
-    public void setMenu(MenuItemBean[] menuItems) {
-        entireMenuObservableList.addAll(menuItems);
+    public void setMenu(MenuItemBean[] allBeans) {
+        entireMenuObservableList.addAll(allBeans);
         updateSections();
+    }
+
+    @Override
+    public void setOrdering(OrderingLineBean[] allBeans) {
+        orderingLinesObservableList.setAll(allBeans);
     }
 
     private void updateSections() {
@@ -164,24 +170,6 @@ public class DesktopOrderController implements OrderViewController {
         System.out.println("Error: " + message);
     }
 
-    public void addToOrdered(MenuItemBean item) {
-        this.orderedItemsObservableList.add(item);
-    }
-
-    public void removeFromOrdered(MenuItemBean item) {
-        this.orderedItemsObservableList.remove(item);
-    }
-
-    public int getItemOrderingCount(MenuItemBean bean) {
-        int count = 0;
-
-        for (MenuItemBean beanIterator : orderedItemsObservableList)
-            if(beanIterator == bean)
-                count++;
-
-        return count;
-    }
-
     public void showItemNotAvailableError(MenuItemBean selectedItemBean) {
         //  TODO: IMPLEMENT
         /*
@@ -208,7 +196,27 @@ public class DesktopOrderController implements OrderViewController {
     }
 
     private void updateOrderingCountButton() {
-        this.orderingCountButton.setText(Integer.toString(orderedItemsObservableList.size()));
-        this.orderingCountButton.setVisible(!orderedItemsObservableList.isEmpty());
+        int count = 0;
+
+        for(OrderingLineBean lineBean : orderingLinesObservableList)
+            count += lineBean.getQuantity();
+
+        this.orderingCountButton.setText(Integer.toString(count));
+        this.orderingCountButton.setVisible(!orderingLinesObservableList.isEmpty());
+    }
+
+    public int getItemOrderingCount(MenuItemBean bean) {
+        int result = 0;
+
+        for(OrderingLineBean beanIterator : orderingLinesObservableList)
+            if(beanIterator.getItemName().equals(bean.getName()))
+                result += beanIterator.getQuantity();
+
+        return result;
+    }
+
+    public void removeOrdering(OrderingLineBean bean) {
+        if(!orderingLinesObservableList.remove(bean))
+            showError("Trying to remove an OrderingLineBean which is not in the list");
     }
 }

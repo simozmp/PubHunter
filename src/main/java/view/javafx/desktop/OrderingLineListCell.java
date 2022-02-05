@@ -11,36 +11,39 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import logic.bean.MenuItemBean;
+import logic.bean.OrderingLineBean;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
 
-public class OrderingItemListCell extends ListCell<MenuItemBean> {
+public class OrderingLineListCell extends ListCell<OrderingLineBean> {
 
     private String notesForItem;
+    private int count;
 
-    MenuItemBean bean;
+    OrderingLineBean bean;
 
     private FXMLLoader fxmlLoader;
-    private DesktopOrderController viewController;
+    private DesktopOrderViewController viewController;
     private boolean extended;
 
     @FXML AnchorPane root;
     @FXML HBox editItemHBox;
     @FXML Button editButton;
     @FXML Button removeButton;
+    @FXML Label countLabel;
     @FXML Label nameLabel;
     @FXML Label descriptionLabel;
     @FXML Label priceLabel;
     @FXML ImageView picImageView;
     @FXML TextArea notesTextArea;
 
-    public OrderingItemListCell(DesktopOrderController viewController) {
+    public OrderingLineListCell(DesktopOrderViewController viewController) {
         this.viewController = viewController;
     }
 
     @Override
-    protected void updateItem(MenuItemBean bean, boolean empty) {
+    protected void updateItem(OrderingLineBean bean, boolean empty) {
         super.updateItem(bean, empty);
 
         if(bean != null && !empty) {
@@ -57,6 +60,8 @@ public class OrderingItemListCell extends ListCell<MenuItemBean> {
                     e.printStackTrace();
                 }
             }
+
+            this.countLabel.setText(bean.getQuantity() + "x");
 
             ImageView trashIconImageView = new ImageView(new Image(
                     getClass().getResource("trash-icon.png").toExternalForm()));
@@ -75,7 +80,7 @@ public class OrderingItemListCell extends ListCell<MenuItemBean> {
             editButton.setOnMouseClicked(mouseEvent -> onEditButtonMouseClick());
 
             this.picImageView.setImage(new Image(getClass().getResource("dish.png").toExternalForm()));
-            this.nameLabel.setText(bean.getName());
+            this.nameLabel.setText(bean.getItemName());
             this.descriptionLabel.setText(bean.getDescription());
             this.priceLabel.setText("€ " + new DecimalFormat("#.00#").format(bean.getPrice()));
 
@@ -90,7 +95,7 @@ public class OrderingItemListCell extends ListCell<MenuItemBean> {
     }
 
     private void onRemoveButtonClick() {
-        viewController.removeFromOrdered(bean);
+        viewController.removeOrdering(bean);
     }
 
     @FXML

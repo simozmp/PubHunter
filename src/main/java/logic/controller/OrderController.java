@@ -1,7 +1,7 @@
 package logic.controller;
 
 import logic.bean.MenuItemBean;
-import logic.bean.OrderingBean;
+import logic.bean.OrderingLineBean;
 import logic.bean.TableServiceBean;
 import logic.dao.implementation.RestaurantDAOImpl;
 import logic.exception.DAOException;
@@ -54,7 +54,7 @@ public class OrderController {
 
         if(item.updateFromPersistence() && item.isAvailable()) {
             if(currentOrdering.add(item))
-                orderViewController.addToOrdered(selectedItemBean);
+                orderViewController.setOrdering(beansFromCurrentOrdering());
         } else
             orderViewController.showItemNotAvailableError(selectedItemBean);
     }
@@ -62,8 +62,9 @@ public class OrderController {
     public void removeFromOrdering(MenuItemBean selectedItemBean) throws LogicException {
         MenuItem selectedItem = selectedItemBean.getReference();
 
-        if(currentOrdering.remove(selectedItem))
-            orderViewController.removeFromOrdered(selectedItemBean);
+        if(currentOrdering.remove(selectedItem)) {
+            orderViewController.setOrdering(beansFromCurrentOrdering());
+        }
     }
 
     public void resetOrdering() {
@@ -77,4 +78,14 @@ public class OrderController {
             orderViewController.showError(e.getMessage());
         }
     }
+
+    private OrderingLineBean[] beansFromCurrentOrdering() {
+        OrderingLineBean[] beansList = new OrderingLineBean[currentOrdering.getLinesCount()];
+
+        for(int i=0; i<currentOrdering.getLinesCount(); i++)
+            beansList[i] = new OrderingLineBean(currentOrdering.getLine(i));
+
+        return beansList;
+    }
+
 }

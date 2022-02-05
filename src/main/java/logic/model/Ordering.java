@@ -2,7 +2,6 @@ package logic.model;
 
 import logic.exception.LogicException;
 
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -63,7 +62,7 @@ public class Ordering implements Serializable {
                     return true;
                 }
 
-            lines.add(new OrderingLine(this, item));
+            lines.add(new OrderingLine(item));
             result = true;
         }
 
@@ -74,15 +73,9 @@ public class Ordering implements Serializable {
      * Operation to clear the ordering
      */
     public void clear() {
+        for(OrderingLine line : lines)
+            line.reset();
         lines.clear();
-    }
-
-    public int getCount() {
-        int result = 0;
-
-        for (OrderingLine entry : lines) result += entry.getQuantity();
-
-        return result;
     }
 
     /**
@@ -90,6 +83,19 @@ public class Ordering implements Serializable {
      */
     public int getLinesCount() {
         return this.lines.size();
+    }
+
+    /*
+
+     */
+    public int getItemQuantity(MenuItem item) {
+        int result = 0;
+
+        for(OrderingLine line : lines)
+            if(line.getItem() == item)
+                result += line.getQuantity();
+
+        return result;
     }
 
     /**
@@ -134,7 +140,7 @@ public class Ordering implements Serializable {
         if(!found)
             throw new LogicException("Couldn't remove item for it is not in the ordering!");
 
-        return found;
+        return true;
     }
 
     /**

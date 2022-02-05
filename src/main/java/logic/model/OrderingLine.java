@@ -1,18 +1,21 @@
 package logic.model;
 
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 public class OrderingLine {
+    private final PropertyChangeSupport propertyChangeSupport;
     private int quantity;
-    private Ordering ordering;
     private MenuItem item;
     private String notes;
 
-    public OrderingLine(Ordering ordering, MenuItem item) {
-        this(ordering, item, 1);
+    public OrderingLine(MenuItem item) {
+        this(item, 1);
     }
 
-    public OrderingLine(Ordering ordering, MenuItem item, int count) {
-        this.ordering = ordering;
+    public OrderingLine(MenuItem item, int count) {
+        this.propertyChangeSupport = new PropertyChangeSupport(this);
         this.item = item;
         this.quantity = count;
     }
@@ -27,6 +30,8 @@ public class OrderingLine {
 
     public void setItem(MenuItem item) {
         this.item = item;
+
+        propertyChangeSupport.firePropertyChange("item", 0, 0);
     }
 
     public String getNotes() {
@@ -34,14 +39,48 @@ public class OrderingLine {
     }
 
     public void setNotes(String notes) {
+        String oldNotes = this.notes;
+
         this.notes = notes;
+        propertyChangeSupport.firePropertyChange("notes", oldNotes, this.notes);
     }
 
     public void decreaseCount() {
-        this.quantity--;
+        if(quantity > 0) {
+            this.quantity--;
+            propertyChangeSupport.firePropertyChange("count", this.quantity + 1, this.quantity);
+        }
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        this.propertyChangeSupport.removePropertyChangeListener(listener);
     }
 
     public void increaseCount() {
         this.quantity++;
+        propertyChangeSupport.firePropertyChange("count", this.quantity - 1, this.quantity);
+    }
+
+    public String getItemName() {
+        return item.getName();
+    }
+
+    public String getItemDescription() {
+        return item.getDescription();
+    }
+
+    public double getItemPrice() {
+        return item.getPrice();
+    }
+
+    public void reset() {
+        this.quantity = 0;
+        this.item = null;
+        this.notes = "";
+        propertyChangeSupport.firePropertyChange("reset", 0, 0);
     }
 }

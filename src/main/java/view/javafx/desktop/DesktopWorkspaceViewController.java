@@ -13,7 +13,7 @@ import view.WorkspaceViewController;
 import java.net.URL;
 import java.util.Objects;
 
-public class DesktopWorkspaceController implements WorkspaceViewController {
+public class DesktopWorkspaceViewController implements WorkspaceViewController {
 
     @FXML private WebView logoWebView;
     @FXML private ListView<TableServiceBean> tableServiceListView;

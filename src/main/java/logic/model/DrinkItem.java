@@ -5,7 +5,6 @@ import logic.dao.implementation.MenuItemDAOImpl;
 import logic.exception.DAOException;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class DrinkItem extends MenuItem {
@@ -29,10 +28,6 @@ public class DrinkItem extends MenuItem {
 
     public void addIngredient(Ingredient ingredient) {
         this.ingredients.add(ingredient);
-    }
-
-    public boolean removeIngredient(Ingredient ingredient) {
-        return this.ingredients.remove(ingredient);
     }
 
     public int getTheCocktailDBId() {
