@@ -16,7 +16,16 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
-            <Button fx:id="orderUCBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#demoOrderUC" styleClass="accent-button" text="Test order use case" GridPane.halignment="CENTER" GridPane.valignment="CENTER" xmlns:fx="http://javafx.com/fxml/1">
+            <Button fx:id="orderUCBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                mnemonicParsing="false" onAction="#demoOrderUC" styleClass="accent-button" text="Test order use case"
+                GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                <GridPane.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                </GridPane.margin></Button>
+
+            <Button fx:id="workspaceBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                mnemonicParsing="false" onAction="#demoWorkspace" styleClass="accent-button" text="Test workspace"
+                GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.columnIndex="1">
             <GridPane.margin>
                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
             </GridPane.margin></Button>

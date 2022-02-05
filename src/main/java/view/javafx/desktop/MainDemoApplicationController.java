@@ -28,9 +28,18 @@ public class MainDemoApplicationController {
 
         consolePrintln("Opening OrderView in new stage, and binding the use case controller");
 
-        DesktopOrderApplication desktopOrderView = new DesktopOrderApplication();
+        DesktopOrderApplication desktopOrderApplication = new DesktopOrderApplication();
 
-        new OrderController(desktopOrderView.getController(), service);
+        new OrderController(desktopOrderApplication.getController(), service);
+
+        demoStage.close();
+    }
+
+    @FXML
+    private void demoWorkspace() {
+        Stage demoStage = (Stage) this.root.getScene().getWindow();
+
+        DesktopWorkspaceApplication desktopWorkspaceApplication = new DesktopWorkspaceApplication();
 
         demoStage.close();
     }

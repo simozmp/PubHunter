@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.MultipleSelectionModel;
 import logic.bean.MenuItemBean;
 
-public class NoSelectionModel extends MultipleSelectionModel<MenuItemBean> {
+public class NoSelectionModel extends MultipleSelectionModel {
     @Override
     public void clearAndSelect(int i) {
         //  Empty method to implement a "no selection" model
@@ -17,7 +17,7 @@ public class NoSelectionModel extends MultipleSelectionModel<MenuItemBean> {
     }
 
     @Override
-    public void select(MenuItemBean menuItemBean) {
+    public void select(Object o) {
         //  Empty method to implement a "no selection" model
     }
 

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
+
+<Pane prefHeight="1024.0" style="-fx-background-color: #FFFFFF" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.javafx.desktop.DesktopWorkspaceController">
+
+   <stylesheets>
+      <URL value="@application.css" />
+   </stylesheets>
+
+   <VBox fx:id="outerVBox" alignment="TOP_CENTER" prefHeight="1024.0" xmlns:fx="http://javafx.com/fxml">
+      <HBox fx:id="navbarHBox" alignment="CENTER" maxHeight="104.0" prefHeight="104.0" xmlns:fx="http://javafx.com/fxml">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <WebView fx:id="logoWebView" maxHeight="70.0" maxWidth="260.0" minHeight="70.0" minWidth="260.0" prefHeight="70.0" prefWidth="260.0" xmlns:fx="http://javafx.com/fxml">
+            <HBox.margin>
+               <Insets left="20.0" />
+            </HBox.margin>
+         </WebView>
+         <HBox alignment="CENTER" maxHeight="104.0" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+            <Button fx:id="navBarMenuBtn" maxHeight="104.0" minHeight="104.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="194.0" styleClass="navbar-button" text="Main Menu" xmlns:fx="http://javafx.com/fxml/1">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <Button maxHeight="104.0" minHeight="104.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="194.0" styleClass="navbar-button" text="Workspace">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <Button maxHeight="104.0" minHeight="104.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="194.0" styleClass="navbar-button" text="Help">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+         </HBox>
+         <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+         <HBox prefHeight="104.0" prefWidth="200.0">
+            <Button maxHeight="104.0" minHeight="104.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="194.0" styleClass="navbar-button" text="Account">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+         </HBox>
+      </HBox>
+      <Line fx:id="navbarDividerLine" endX="1440.0" endY="104.0" startY="104.0" styleClass="divider-line" />
+      <BorderPane VBox.vgrow="ALWAYS">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <center>
+            <StackPane maxHeight="772.0" maxWidth="1320.0" minHeight="772.0" minWidth="1320.0" prefHeight="772.0" prefWidth="1320.0" BorderPane.alignment="CENTER">
+      
+               <!-- Container -->
+               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="772.0" stroke="BLACK" strokeType="INSIDE" styleClass="container" width="1320.0" />
+               <HBox>
+                  <VBox fx:id="orderSectionParent" alignment="CENTER_LEFT" spacing="20.0" HBox.hgrow="ALWAYS">
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                     <Label fx:id="productsRequestsLabel" style="-fx-font-family: bold; -fx-font-size: 18" styleClass="dark-label" text="Products requests (dummy)" VBox.vgrow="ALWAYS">
+                        <VBox.margin>
+                           <Insets />
+                        </VBox.margin>
+                     </Label>
+                     <ListView fx:id="productRequestListView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="NEVER">
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+
+                     <!-- Table services section -->
+                     <Label fx:id="tableServicesLabel" style="-fx-font-family: bold; -fx-font-size: 18" styleClass="dark-label" text="Table services (dummy)" />
+                     <ListView fx:id="tableServiceListView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+
+
+                     <!-- Service status section -->
+                     <Label fx:id="serviceStatusLabel" style="-fx-font-family: bold; -fx-font-size: 18" styleClass="dark-label" text="Service status and actions (dummy)" />
+                     <StackPane prefHeight="150.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" StackPane.alignment="CENTER">
+                           <StackPane.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </StackPane.margin>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                           <Canvas fx:id="deviceCanvas" height="69.0" width="90.0" />
+                           <Line endX="100.0" startX="-100.0" />
+                           <GridPane>
+                              <columnConstraints>
+                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              </columnConstraints>
+                              <rowConstraints>
+                                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              </rowConstraints>
+
+                              <Label text="Service status: " style="-fx-font-family: regular; -fx-font-size: 12" />
+                              <Label fx:id="statusLabel" text="INACTIVE" GridPane.columnIndex="1"
+                                  style="-fx-font-family: regular; -fx-font-size: 12" />
+
+                              <Label text="Logged as: " GridPane.rowIndex="1"
+                                  style="-fx-font-family: regular; -fx-font-size: 12" />
+                              <Label fx:id="userRoleLabel" text="none" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                                  style="-fx-font-family: regular; -fx-font-size: 12" />
+
+                              <Label text="Restaurant: " GridPane.rowIndex="2" style="-fx-font-family: regular; -fx-font-size: 12" />
+                              <Label fx:id="restaurantLabel" text="not retrieved" GridPane.columnIndex="1"
+                                  GridPane.rowIndex="2" style="-fx-font-family: regular; -fx-font-size: 12" />
+
+                              <Label text="Service duration: " GridPane.rowIndex="3" style="-fx-font-family: regular; -fx-font-size: 12" />
+                              <Label fx:id="serviceDurationLabel" text="not retrieved" GridPane.columnIndex="1"
+                                  GridPane.rowIndex="3" style="-fx-font-family: regular; -fx-font-size: 12" />
+
+                              <padding>
+                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                              </padding>
+                           </GridPane>
+                           <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="15.0" VBox.vgrow="NEVER">
+                              <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" text="Edit supplies" />
+                              <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" text="Close service" />
+                           </HBox>
+                        </VBox>
+                        <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#1f93ff00" height="250.0" stroke="BLACK"
+                            strokeType="INSIDE" width="320.0" StackPane.alignment="CENTER" />
+                     </StackPane>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </VBox>
+               </HBox>
+      
+            </StackPane>
+         </center>
+      </BorderPane>
+   </VBox>
+</Pane>
