@@ -42,7 +42,7 @@ public class DesktopWorkspaceApplication extends Application {
 
         scene = new Scene(Objects.requireNonNull(viewParent));
 
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("application.css")).toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("mobile-application.css")).toExternalForm());
 
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);

@@ -10,21 +10,20 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import logic.bean.MenuItemBean;
 import logic.bean.OrderingLineBean;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.Objects;
 
 public class OrderingLineListCell extends ListCell<OrderingLineBean> {
 
     private String notesForItem;
-    private int count;
 
     OrderingLineBean bean;
 
     private FXMLLoader fxmlLoader;
-    private DesktopOrderViewController viewController;
+    private final DesktopOrderViewController viewController;
     private boolean extended;
 
     @FXML AnchorPane root;
@@ -64,7 +63,7 @@ public class OrderingLineListCell extends ListCell<OrderingLineBean> {
             this.countLabel.setText(bean.getQuantity() + "x");
 
             ImageView trashIconImageView = new ImageView(new Image(
-                    getClass().getResource("trash-icon.png").toExternalForm()));
+                    Objects.requireNonNull(getClass().getResource("trash-icon.png")).toExternalForm()));
             trashIconImageView.setPreserveRatio(true);
             trashIconImageView.setFitHeight(30);
             trashIconImageView.setFitWidth(30);
@@ -72,20 +71,23 @@ public class OrderingLineListCell extends ListCell<OrderingLineBean> {
             removeButton.setOnMouseClicked(mouseEvent -> onRemoveButtonClick());
 
             ImageView pencilIconImageView = new ImageView(new Image(
-                    getClass().getResource("add-notes-icon.png").toExternalForm()));
+                    Objects.requireNonNull(getClass().getResource("add-notes-icon.png")).toExternalForm()));
             pencilIconImageView.setPreserveRatio(true);
             pencilIconImageView.setFitHeight(30);
             pencilIconImageView.setFitWidth(30);
             editButton.setGraphic(pencilIconImageView);
             editButton.setOnMouseClicked(mouseEvent -> onEditButtonMouseClick());
 
-            this.picImageView.setImage(new Image(getClass().getResource("dish.png").toExternalForm()));
+            this.picImageView.setImage(new Image(
+                    Objects.requireNonNull(getClass().getResource("dish.png")).toExternalForm()));
             this.nameLabel.setText(bean.getItemName());
             this.descriptionLabel.setText(bean.getDescription());
             this.priceLabel.setText("€ " + new DecimalFormat("#.00#").format(bean.getPrice()));
 
             notesTextArea.setPromptText("Write your notes here...");
-            notesTextArea.setOnKeyTyped(keyEvent -> notesForItem = notesTextArea.getText());
+            notesTextArea.setOnKeyTyped(keyEvent -> {
+                viewController.addNotesToLine(notesTextArea.getText(), bean);
+            });
 
             this.setGraphic(root);
 
@@ -95,7 +97,7 @@ public class OrderingLineListCell extends ListCell<OrderingLineBean> {
     }
 
     private void onRemoveButtonClick() {
-        viewController.removeOrdering(bean);
+        viewController.removeOrderingLine(bean);
     }
 
     @FXML

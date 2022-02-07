@@ -8,6 +8,7 @@ import logic.controller.OrderController;
 import logic.controller.PopulatePersistenceController;
 import logic.exception.PwdHasherException;
 import logic.model.*;
+import view.javafx.mobile.MobileOrderApplication;
 
 import javax.mail.internet.AddressException;
 import java.time.LocalDate;
@@ -19,7 +20,24 @@ public class MainDemoApplicationViewController {
     @FXML TextArea consoleTextArea;
 
     @FXML
-    private void demoOrderUC() throws AddressException, PwdHasherException {
+    private void demoMobileOrderUC() throws AddressException, PwdHasherException {
+        Stage demoStage = (Stage) this.root.getScene().getWindow();
+
+        consolePrintln("Order use case preparing...");
+
+        TableService service = PopulatePersistenceController.awesomeServiceData();
+
+        consolePrintln("Opening OrderView in new stage, and binding the use case controller");
+
+        MobileOrderApplication mobileOrderApplication = new MobileOrderApplication();
+
+        new OrderController(mobileOrderApplication.getController(), service);
+
+        demoStage.close();
+    }
+
+    @FXML
+    private void demoDesktopOrderUC() throws AddressException, PwdHasherException {
         Stage demoStage = (Stage) this.root.getScene().getWindow();
 
         consolePrintln("Order use case preparing...");

@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import logic.bean.MenuItemBean;
 
 import java.net.URL;
@@ -30,13 +31,10 @@ import view.OrderViewController;
 
 public class DesktopOrderViewController implements OrderViewController {
 
-    @FXML private Pane outerPane;
-    @FXML private Scene outerScene;
-    @FXML private VBox outerVBox;
-    @FXML private HBox navbarHBox;
-    @FXML private Line navbarDividerLine;
+    @FXML private AnchorPane errorDialogAnchorPane;
+    @FXML private Label errorBodyLabel;
+    @FXML private Button dismissErrorButton;
     @FXML private WebView logoWebView;
-    @FXML private Button navBarMenuBtn;
     @FXML private Button reviewOrderingButton;
     @FXML private Button backToMenuButton;
     @FXML private ListView<MenuItemBean> menuItemListView;
@@ -50,7 +48,6 @@ public class DesktopOrderViewController implements OrderViewController {
     @FXML private Parent confirmOrderParent;
     @FXML private Parent orderSectionParent;
 
-    private TableServiceBean serviceBean;
     private ObservableList<MenuItemBean> menuItemsObservableList;
     private ObservableList<MenuItemBean> entireMenuObservableList;
     private ObservableList<OrderingLineBean> orderingLinesObservableList;
@@ -67,10 +64,10 @@ public class DesktopOrderViewController implements OrderViewController {
         logoWebEngine.load(Objects.requireNonNull(url1).toExternalForm());
 
         //  Setting up graphics in reviewOrderingButton
-        reviewOrderingButton.setGraphic(
-                new ImageView(new Image(getClass().getResource("order-icon.png").toExternalForm())));
-        backToMenuButton.setGraphic(
-                new ImageView(new Image(getClass().getResource("left-arrow.png").toExternalForm())));
+        reviewOrderingButton.setGraphic(new ImageView(new Image(
+                Objects.requireNonNull(getClass().getResource("order-icon.png")).toExternalForm())));
+        backToMenuButton.setGraphic(new ImageView(new Image(
+                Objects.requireNonNull(getClass().getResource("left-arrow.png")).toExternalForm())));
 
         //  Setting up an observable list for ordered items
         orderingLinesObservableList = FXCollections.observableArrayList();
@@ -98,6 +95,8 @@ public class DesktopOrderViewController implements OrderViewController {
         sectionListView.setOnMouseClicked(mouseEvent -> switchSection());
 
         sendOrderButton.setOnMouseClicked(mouseEvent -> useCaseController.sendOrdering());
+
+        dismissErrorButton.setOnMouseClicked(mouseEvent -> onDismissErrorButton());
     }
 
     public void setRestaurantName(String restaurantName) {
@@ -128,7 +127,11 @@ public class DesktopOrderViewController implements OrderViewController {
     }
 
     public void onPlusButton() {
-        useCaseController.addToOrdering(menuItemListView.getSelectionModel().getSelectedItem());
+        try {
+            useCaseController.addToOrdering(menuItemListView.getSelectionModel().getSelectedItem());
+        } catch (LogicException e) {
+            showError(e.getMessage());
+        }
     }
 
     public void onMinusButton() {
@@ -166,24 +169,16 @@ public class DesktopOrderViewController implements OrderViewController {
     }
 
     public void showError(String message) {
-        // TODO: IMPLEMENT VISUAL ERROR FEEDBACK
-        System.out.println("Error: " + message);
+        errorBodyLabel.setText("Error: " + message);
+        errorDialogAnchorPane.setVisible(true);
     }
 
-    public void showItemNotAvailableError(MenuItemBean selectedItemBean) {
-        //  TODO: IMPLEMENT
-        /*
-            The UI shall only be communicating that the item is not available anymore, and should not need to update
-            the listview representation. That is 'cause the bean (implementer of PropertyChangeListener) should be
-            updated already, along with his graphical representation (MenuItemListCell)
-         */
-
-        showError("Item \"" + selectedItemBean.getName() +"\" is not available anymore.");
+    private void onDismissErrorButton() {
+        errorDialogAnchorPane.setVisible(false);
     }
 
     public void setService(TableServiceBean tableServiceBean) {
-        this.serviceBean = tableServiceBean;
-        this.setRestaurantName(serviceBean.getRestaurantName());
+        this.setRestaurantName(tableServiceBean.getRestaurantName());
     }
 
     private void showItemsByCategory(String category) {
@@ -215,8 +210,19 @@ public class DesktopOrderViewController implements OrderViewController {
         return result;
     }
 
-    public void removeOrdering(OrderingLineBean bean) {
-        if(!orderingLinesObservableList.remove(bean))
-            showError("Trying to remove an OrderingLineBean which is not in the list");
+    public void removeOrderingLine(OrderingLineBean bean) {
+        try {
+            if(useCaseController.removeOrderingLine(bean)) {
+                if (!orderingLinesObservableList.remove(bean))
+                    showError("Trying to remove an OrderingLineBean which is not in the list");
+            } else
+                showError("Logic error while removing ordering line!");
+        } catch (LogicException e) {
+            showError("Logic error while removing ordering line");
+        }
+    }
+
+    public void addNotesToLine(String notes, OrderingLineBean bean) {
+        useCaseController.addNotesToOrderingLine(notes, bean);
     }
 }
