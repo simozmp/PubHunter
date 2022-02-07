@@ -1,5 +1,6 @@
 package logic.model;
 
+import logic.bean.OrderingLineBean;
 import logic.exception.LogicException;
 
 import java.io.Serializable;
@@ -197,5 +198,25 @@ public class Ordering implements Serializable {
      */
     public void setRecordId(int recordId) {
         this.recordId = recordId;
+    }
+
+    public boolean removeLine(OrderingLineBean lineBean) throws LogicException {
+        boolean found = false;
+
+        for(OrderingLine line : lines)
+            if(line.getItem().getName() == lineBean.getItemName()) {
+                found = true;
+                lines.remove(line);
+                break;
+            }
+
+        if(!found)
+            throw new LogicException("Error while removing line from ordering: unable to find line relative to bean");
+
+        return true;
+    }
+
+    public void addNotesToLine(String text, int i) {
+        lines.get(i).addNotes(text);
     }
 }

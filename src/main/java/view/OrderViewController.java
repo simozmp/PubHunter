@@ -16,6 +16,4 @@ public interface OrderViewController {
     void setMenu(MenuItemBean[] menuItems);
 
     void setOrdering(OrderingLineBean[] bean);
-
-    void showItemNotAvailableError(MenuItemBean selectedItemBean);
 }

@@ -22,4 +22,6 @@ module PubHunter {
     opens logic.controller to javafx.fxml;
     exports view.javafx.desktop;
     opens view.javafx.desktop to javafx.fxml;
+    exports view.javafx.mobile;
+    opens view.javafx.mobile to javafx.fxml;
 }

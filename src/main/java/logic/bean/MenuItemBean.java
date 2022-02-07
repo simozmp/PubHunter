@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MenuItemBean implements PropertyChangeListener {
-    private MenuItem reference;
     private String name;
     private String description;
     private double price;
@@ -16,24 +15,10 @@ public class MenuItemBean implements PropertyChangeListener {
     private final List<String> tags;
     private boolean available;
 
-    public MenuItemBean(String name, String description, double price, List<String> tags, boolean availability,
-                        String category) {
-        this.name = name;
-        this.description = description;
-        this.tags = tags;
-        this.price = price;
-        this.available = availability;
-        this.category = category;
-    }
-
     public MenuItemBean(MenuItem reference) {
-
-        this.reference = reference;
-
         //  Registering as a listener for the MenuItem
         reference.addPropertyChangeListener(this);
 
-        //  Retrieving MenuItem data
         this.name = reference.getName();
         this.description = reference.getDescription();
 
@@ -78,10 +63,6 @@ public class MenuItemBean implements PropertyChangeListener {
         return available;
     }
 
-    public MenuItem getReference() {
-        return this.reference;
-    }
-
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch(evt.getPropertyName()) {
@@ -100,8 +81,10 @@ public class MenuItemBean implements PropertyChangeListener {
             case "tags":
                 if(evt.getOldValue() == null)
                     this.tags.add((String) evt.getNewValue());
-                else if(evt.getNewValue() == null)
-                    this.tags.remove(evt.getOldValue());
+                else if(evt.getNewValue() == null) {
+                    String oldValue = (String) evt.getOldValue();
+                    this.tags.remove(oldValue);
+                }
                 break;
             case "available":
                 this.available = (boolean) evt.getNewValue();
@@ -109,14 +92,5 @@ public class MenuItemBean implements PropertyChangeListener {
             default:
                 break;
         }
-    }
-
-
-    /**
-     * Unbinds instance from referenced model instance
-     */
-    public void unbindFromReference() {
-        if(reference != null)
-            reference.removePropertyChangeListener(this);
     }
 }

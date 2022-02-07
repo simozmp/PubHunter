@@ -28,12 +28,6 @@ public class OrderingLine {
         return item;
     }
 
-    public void setItem(MenuItem item) {
-        this.item = item;
-
-        propertyChangeSupport.firePropertyChange("item", 0, 0);
-    }
-
     public String getNotes() {
         return notes;
     }
@@ -82,5 +76,9 @@ public class OrderingLine {
         this.item = null;
         this.notes = "";
         propertyChangeSupport.firePropertyChange("reset", 0, 0);
+    }
+
+    public void addNotes(String text) {
+        this.notes = text;
     }
 }

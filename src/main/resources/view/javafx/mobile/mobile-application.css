@@ -20,18 +20,11 @@
     src: url("../font-inter/Inter-Bold.ttf");
 }
 
-.navbar-button {
-    -fx-background-color: transparent;
-    -fx-font-family: semi-bold;
-    -fx-text-fill: #4A5568;
-    -fx-font-size: 18px;
-}
-
-
 .accent-button {
     -fx-background-color: #3182CE;
     -fx-font-family: regular;
     -fx-text-fill: #F7FAFC;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 6, 0, 1, 2);
 }
 
 .accent-counter-button {
@@ -43,12 +36,18 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 10, 0, 0, 0);
 }
 
+.accent-flat-button {
+    -fx-background-color: #3182CE;
+    -fx-font-family: regular;
+    -fx-text-fill: #F7FAFC;
+}
+
 .dark-label {
     -fx-text-fill: #4A5568;
 }
 
 .light-label {
-    -fx-fill: #F7FAFC;
+    -fx-text-fill: #F7FAFC;
 }
 
 .warning-text-label {
@@ -56,53 +55,27 @@
     -fx-fill: #FFA900;
 }
 
-.container {
-    -fx-fill: #F7FAFC;
-    -fx-arc-height: 30;
-    -fx-arc-width: 30;
+.light-title-bar {
+    -fx-fill: #3182CF;
     -fx-stroke: transparent;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 0);
 }
 
-.section-container {
-    -fx-fill: #F7FAFC;
-    -fx-arc-height: 30;
-    -fx-arc-width: 30;
+.item-background {
+    -fx-fill: #EEF2F7;
     -fx-stroke: transparent;
-    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, -1, -1);
-}
-
-.menu-section-list-cell {
-    -fx-fill: #EEF2F7;
-}
-
-.section-accent-fill {
-    -fx-fill: #EEF2F7;
-}
-
-.section-accent-fill-selected {
-    -fx-fill: #3182CE;
-}
-
-.menu-section-list-cell-selected {
-    -fx-fill: #D1E3F3;
-}
-
-.split-pane:horizontal > .split-pane-divider {
-    -fx-padding: 0 0.5 0 0.5;
-    -fx-background-color: #5C5E61;
-}
-.tag-btn {
-    -fx-background-color: #FDE68A;
-    -fx-background-radius: 20;
-    -fx-border-radius: 10;
-    -fx-font-size: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 5, 0, 0, 0);
 }
 
 .error-dialog {
     -fx-fill: #EEF2F7;
     -fx-stroke: transparent;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 5000, 0.3, 0, 0);
+}
+
+.item-accent {
+    -fx-fill: #3182CE;
+    -fx-stroke: transparent;
 }
 
 .list-cell:selected {
@@ -116,13 +89,5 @@
 }
 
 .list-cell:empty {
-    -fx-background-color: #F7FAFC;
-}
-
-.divider-line {
-    -fx-stroke: #E2E8F0;
-}
-
-.list-view {
     -fx-background-color: #F7FAFC;
 }

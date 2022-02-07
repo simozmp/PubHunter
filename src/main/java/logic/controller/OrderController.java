@@ -9,6 +9,8 @@ import logic.exception.LogicException;
 import logic.model.*;
 import view.OrderViewController;
 
+import java.util.Objects;
+
 public class OrderController {
     private final TableService service;
     private final Ordering currentOrdering;
@@ -23,8 +25,7 @@ public class OrderController {
         try {
             orderViewController.bindUseCaseController(this);
         } catch(LogicException e) {
-            System.out.println("Logic exception" + e.getMessage());
-            e.printStackTrace();
+            orderViewController.showError("Logic exception" + e.getMessage());
         }
 
         this.service = service;
@@ -48,23 +49,45 @@ public class OrderController {
         orderViewController.setMenu(menuItems);
     }
 
-    public void addToOrdering(MenuItemBean selectedItemBean) {
+    public void addToOrdering(MenuItemBean selectedItemBean) throws LogicException {
 
-        MenuItem item = selectedItemBean.getReference();
+        MenuItem item = findWorkingRestaurantMenuItemByBean(selectedItemBean);
 
         if(item.updateFromPersistence() && item.isAvailable()) {
             if(currentOrdering.add(item))
                 orderViewController.setOrdering(beansFromCurrentOrdering());
         } else
-            orderViewController.showItemNotAvailableError(selectedItemBean);
+            orderViewController.showError(
+                    "Sorry, it seems that " + selectedItemBean.getName() + " is not available anymore.");
     }
 
     public void removeFromOrdering(MenuItemBean selectedItemBean) throws LogicException {
-        MenuItem selectedItem = selectedItemBean.getReference();
+
+        MenuItem selectedItem = findWorkingRestaurantMenuItemByBean(selectedItemBean);
 
         if(currentOrdering.remove(selectedItem)) {
             orderViewController.setOrdering(beansFromCurrentOrdering());
         }
+    }
+
+    private MenuItem findWorkingRestaurantMenuItemByBean(MenuItemBean selectedItemBean) throws LogicException {
+        MenuItem result = null;
+        boolean found = false;
+
+        for(int i=0; i<workingRestaurant.getMenuSize(); i++)
+            if(Objects.equals(workingRestaurant.getMenuItem(i).getName(), selectedItemBean.getName())) {
+                result = workingRestaurant.getMenuItem(i);
+                found = true;
+            }
+
+        if(!found)
+            throw new LogicException("Working with a bean that is not in the menu!");
+
+        return result;
+    }
+
+    public boolean removeOrderingLine(OrderingLineBean lineBean) throws LogicException {
+        return currentOrdering.removeLine(lineBean);
     }
 
     public void resetOrdering() {
@@ -80,12 +103,17 @@ public class OrderController {
     }
 
     private OrderingLineBean[] beansFromCurrentOrdering() {
-        OrderingLineBean[] beansList = new OrderingLineBean[currentOrdering.getLinesCount()];
+        OrderingLineBean[] orderingLineBeanList = new OrderingLineBean[currentOrdering.getLinesCount()];
 
         for(int i=0; i<currentOrdering.getLinesCount(); i++)
-            beansList[i] = new OrderingLineBean(currentOrdering.getLine(i));
+            orderingLineBeanList[i] = new OrderingLineBean(currentOrdering.getLine(i));
 
-        return beansList;
+        return orderingLineBeanList;
     }
 
+    public void addNotesToOrderingLine(String text, OrderingLineBean bean) {
+        for(int i = 0; i<currentOrdering.getLinesCount(); i++)
+            if(currentOrdering.getLine(i).getItemName().equals(bean.getItemName()))
+                currentOrdering.addNotesToLine(text, i);
+    }
 }

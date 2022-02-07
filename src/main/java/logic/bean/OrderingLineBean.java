@@ -7,21 +7,20 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class OrderingLineBean implements PropertyChangeListener {
-    private OrderingLine reference;
 
-    private String itemName;
-    private String itemDescription;
-    private double itemPrice;
+    private final String itemName;
+    private final String itemDescription;
+    private final double itemPrice;
     private int quantity;
     private String notes;
 
     public OrderingLineBean(OrderingLine line) {
-        this.reference = line;
-        this.reference.addPropertyChangeListener(this);
+        line.addPropertyChangeListener(this);
         this.itemName = line.getItemName();
         this.itemDescription = line.getItemDescription();
         this.itemPrice = line.getItemPrice();
         this.quantity = line.getQuantity();
+        this.notes = line.getNotes();
     }
 
     public String getItemName() {
@@ -36,18 +35,14 @@ public class OrderingLineBean implements PropertyChangeListener {
         return notes;
     }
 
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        switch (evt.getPropertyName()) {
-            case "quantity" -> { this.quantity = reference.getQuantity(); }
-            case "item" -> {
-                this.itemName = reference.getItemName();
-                this.itemDescription = reference.getItemDescription();
-                this.itemPrice = reference.getItemPrice();
-            }
-            default -> {
-            }
-        }
+        if (evt.getPropertyName().equals("quantity"))
+            this.quantity = (int) evt.getNewValue();
     }
 
     public String getDescription() {
