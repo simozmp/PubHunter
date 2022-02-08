@@ -7,6 +7,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SectionListCellController extends javafx.scene.control.ListCell<String> {
     @FXML private BorderPane root;
@@ -30,7 +32,7 @@ public class SectionListCellController extends javafx.scene.control.ListCell<Str
                 try {
                     mLLoader.load();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Logger.getLogger("JavaFXApplication").log(Level.WARNING, "Couldn''t find fxml view file.", e);
                 }
             }
 

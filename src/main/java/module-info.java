@@ -20,8 +20,10 @@ module PubHunter {
     opens logic.model to javafx.fxml;
     exports logic.controller;
     opens logic.controller to javafx.fxml;
+    opens view.javafx to javafx.fxml;
     exports view.javafx.desktop;
     opens view.javafx.desktop to javafx.fxml;
     exports view.javafx.mobile;
     opens view.javafx.mobile to javafx.fxml;
+    exports view.javafx;
 }

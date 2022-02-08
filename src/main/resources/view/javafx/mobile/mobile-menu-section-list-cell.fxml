@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-
+<?import javafx.scene.control.Label?><?import javafx.scene.layout.*?><?import javafx.scene.shape.Rectangle?>
 <AnchorPane fx:id="root" prefHeight="100.0" prefWidth="357.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <Rectangle height="90.0" styleClass="item-background" width="357.0" AnchorPane.bottomAnchor="5.0" AnchorPane.topAnchor="5.0" />
    <Label fx:id="sectionLabel" style="-fx-font-size: 20" styleClass="dark-label" text="Label" textAlignment="CENTER" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="32.0" />

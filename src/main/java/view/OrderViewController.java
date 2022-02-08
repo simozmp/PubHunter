@@ -15,5 +15,9 @@ public interface OrderViewController {
 
     void setMenu(MenuItemBean[] menuItems);
 
+    void onRemoveOrderingLineButton(OrderingLineBean bean);
+
+    void addNotesToLine(String notes, OrderingLineBean orderingBean);
+
     void setOrdering(OrderingLineBean[] bean);
 }

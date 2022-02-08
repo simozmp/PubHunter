@@ -12,8 +12,11 @@ import logic.bean.MenuItemBean;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MobileMenuItemListCell extends ListCell<MenuItemBean> {
+
 
     @FXML private AnchorPane root;
     @FXML private Canvas itemCanvas;
@@ -50,7 +53,7 @@ public class MobileMenuItemListCell extends ListCell<MenuItemBean> {
                 try {
                     fxmlLoader.load();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Logger.getLogger("JavaFXApplication").log(Level.WARNING, "Couldn''t find fxml view file.", e);
                 }
             }
 

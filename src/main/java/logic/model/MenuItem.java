@@ -5,14 +5,13 @@ import logic.exception.DAOException;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Domain model class for an order-able product of a restaurant menu
  */
-public abstract class MenuItem implements Serializable {
+public abstract class MenuItem {
 
     /**
      * To dispatch PropertyChangeEvent-s to beans that implements PropertyChangeListener

@@ -6,7 +6,10 @@ import logic.dao.TableDAO;
 import logic.exception.DAOException;
 import logic.exception.DAOInsertOnExistingItemException;
 import logic.exception.DAOItemNotFoundException;
-import logic.model.*;
+import logic.model.Ingredient;
+import logic.model.MenuItem;
+import logic.model.Restaurant;
+import logic.model.Table;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -75,9 +78,7 @@ public class RestaurantDAOImpl extends DAOImpl implements logic.dao.RestaurantDA
         UserDAOImpl userDAO = new UserDAOImpl();
 
         //  Instantiating the restaurant
-        Restaurant resultRestaurant = new Restaurant(restaurantName, userDAO.getManagerByRestaurantId(id));
-        //  Binding to persistence
-        resultRestaurant.setRecordId(id);
+        Restaurant resultRestaurant = new Restaurant(restaurantName, userDAO.getManagerByRestaurantId(id), id);
 
         //  A TableDAO to load the restaurant tables
         TableDAOImpl tableDAO = new TableDAOImpl();
@@ -151,12 +152,14 @@ public class RestaurantDAOImpl extends DAOImpl implements logic.dao.RestaurantDA
             try {
                 tableDAO.insert(restaurant.getTable(i));
             } catch (DAOInsertOnExistingItemException ignored) {
+                //  Table already in the db
             }
 
         for(int i=0; i<restaurant.getSuppliesCount(); i++)
             try {
                 ingredientDAO.insertSupplyToRestaurant(restaurant.getSupply(i), restaurant);
             } catch (DAOInsertOnExistingItemException ignored) {
+                //  supply already in the db
             }
     }
 }

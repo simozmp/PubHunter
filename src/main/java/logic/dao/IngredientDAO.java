@@ -2,7 +2,6 @@ package logic.dao;
 
 import logic.exception.DAOException;
 import logic.model.Ingredient;
-import logic.model.MenuItem;
 import logic.model.Restaurant;
 
 import java.util.List;

@@ -58,7 +58,8 @@ public class IngredientDAOImpl extends DAOImpl implements logic.dao.IngredientDA
                 ingredients.add(new Ingredient(resultSet.getString("ingredient")));
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException("Unexpected SQLException while getting ingredient with message: " +
+                    e.getMessage());
         }
 
         this.disconnect();

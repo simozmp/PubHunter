@@ -3,7 +3,6 @@ package logic.model;
 import logic.bean.OrderingLineBean;
 import logic.exception.LogicException;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.Objects;
 /**
  * The model class for an ordering
  */
-public class Ordering implements Serializable {
+public class Ordering {
 
     /**
      * The TableService associated with this ordering
@@ -204,7 +203,7 @@ public class Ordering implements Serializable {
         boolean found = false;
 
         for(OrderingLine line : lines)
-            if(line.getItem().getName() == lineBean.getItemName()) {
+            if(Objects.equals(line.getItem().getName(), lineBean.getItemName())) {
                 found = true;
                 lines.remove(line);
                 break;

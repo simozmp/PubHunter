@@ -1,6 +1,5 @@
 package logic.dao.implementation;
 
-import logic.dao.DAO;
 import logic.dao.IngredientDAO;
 import logic.exception.DAOException;
 import logic.exception.DAOInsertOnExistingItemException;
@@ -208,8 +207,9 @@ public class MenuItemDAOImpl extends DAOImpl implements logic.dao.MenuItemDAO {
             result = resultSet.getInt("restaurant_fk");
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException("Unexpected SQLException while getting MenuItem's restaurant fk: " + e.getMessage());
         }
+
         this.disconnect();
 
         return result;
@@ -266,7 +266,7 @@ public class MenuItemDAOImpl extends DAOImpl implements logic.dao.MenuItemDAO {
 
             id = resultSet.getInt("id");
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException("Unexpected SQLException while getting MenuItems: " + e.getMessage());
         } finally {
             this.disconnect();
         }

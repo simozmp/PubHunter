@@ -2,9 +2,11 @@ package view.javafx.mobile;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -14,11 +16,11 @@ import logic.bean.OrderingLineBean;
 import logic.bean.TableServiceBean;
 import logic.controller.OrderController;
 import logic.exception.LogicException;
-import view.OrderViewController;
+import view.OrderViewControllerImpl;
 
 import java.util.Objects;
 
-public class MobileOrderViewController implements OrderViewController {
+public class MobileOrderViewController extends OrderViewControllerImpl {
 
     @FXML private AnchorPane errorDialogAnchorPane;
     @FXML private Button dismissErrorButton;
@@ -37,11 +39,6 @@ public class MobileOrderViewController implements OrderViewController {
     @FXML private Button reviewOrderingButton;
     @FXML private Button sendOrderBtn;
     private Hyperlink backHyperlink;
-
-    private ObservableList<MenuItemBean> menuItemsObservableList;
-    private ObservableList<MenuItemBean> entireMenuObservableList;
-    private ObservableList<OrderingLineBean> orderingLinesObservableList;
-    private ObservableList<String> sectionObservableList;
 
     private OrderController useCaseController;
 
@@ -152,15 +149,6 @@ public class MobileOrderViewController implements OrderViewController {
         this.titleBarLabel.setText(restaurantName + " · Menu");
     }
 
-    private void showItemsByCategory(String category) {
-        menuItemsObservableList.clear();
-
-        for (MenuItemBean bean : entireMenuObservableList)
-            if (Objects.equals(bean.getCategory(), category)) {
-                menuItemsObservableList.add(bean);
-            }
-    }
-
     private void updateOrderingCountButton() {
         int count = 0;
 
@@ -190,6 +178,9 @@ public class MobileOrderViewController implements OrderViewController {
     public void onMinusButton() {
         try {
             useCaseController.removeFromOrdering(itemsListView.getSelectionModel().getSelectedItem());
+
+            if(orderingLinesObservableList.isEmpty())
+                orderingCountButton.setVisible(false);
         } catch(LogicException e) {
             this.showError(e.getMessage());
         }
@@ -232,16 +223,6 @@ public class MobileOrderViewController implements OrderViewController {
     public void setOrdering(OrderingLineBean[] allBeans) {
         orderingLinesObservableList.clear();
         orderingLinesObservableList.addAll(allBeans);
-    }
-
-    public int getItemOrderingQuantity(MenuItemBean bean) {
-        int result = 0;
-
-        for(OrderingLineBean beanIterator : orderingLinesObservableList)
-            if(beanIterator.getItemName().equals(bean.getName()))
-                result += beanIterator.getQuantity();
-
-        return result;
     }
 
     public void onRemoveOrderingLineButton(OrderingLineBean bean) {

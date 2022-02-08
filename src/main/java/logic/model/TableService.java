@@ -2,12 +2,11 @@ package logic.model;
 
 import logic.exception.LogicException;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class TableService implements Serializable {
+public class TableService {
     private Table tableReference;
     private LocalDate openedDate;
     private LocalTime openedTime;

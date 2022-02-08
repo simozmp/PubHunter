@@ -78,11 +78,6 @@
     -fx-stroke: transparent;
 }
 
-.list-cell:selected {
-    -fx-padding: 0;
-    -fx-background-color: #EEF2F7;
-}
-
 .list-cell {
     -fx-padding: 0;
     -fx-background-color: #EEF2F7;

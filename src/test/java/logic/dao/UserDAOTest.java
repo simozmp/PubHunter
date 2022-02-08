@@ -13,7 +13,7 @@ import javax.mail.internet.InternetAddress;
 
 class UserDAOTest {
     @Test
-    void TestIOMatching() throws AddressException, DAOException, PwdHasherException {
+    void testIOMatching() throws AddressException, DAOException, PwdHasherException {
 
         //  Setting up sample user data to write in persistence
         String kentFirstName = "Kent";

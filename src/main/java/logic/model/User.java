@@ -4,12 +4,11 @@ import logic.exception.PwdHasherException;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-import java.io.Serializable;
 
 /**
  * Model class for a user, it contains data such as first and last name, email address, and a password trace.
  */
-public class User implements Customer, Serializable {
+public class User implements Customer {
 
     private final String firstName;
     private final String lastName;
@@ -27,7 +26,7 @@ public class User implements Customer, Serializable {
         this.passwordTrace = new PasswordTrace(passwordHasher.hashPwd(password), passwordHasher.getKey());
     }
 
-    public User(String firstName, String lastName, String eMailAddress, PasswordTrace password)
+    public User(String firstName, String lastName, String eMailAddress, PasswordTrace passwordTrace)
             throws AddressException {
 
         //  Preliminary operation: verify mail string integrity
@@ -37,7 +36,7 @@ public class User implements Customer, Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.eMailAddress = mail;
-        this.passwordTrace = password;
+        this.passwordTrace = passwordTrace;
     }
 
     @Override

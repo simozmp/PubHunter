@@ -1,9 +1,8 @@
 package logic.model;
 
-import java.io.Serializable;
 import java.util.Locale;
 
-public class Ingredient implements Serializable {
+public class Ingredient {
     String description;
 
     public Ingredient(String description) {

@@ -23,7 +23,7 @@ public class OrderingLineDAOImpl extends DAOImpl implements logic.dao.OrderingLi
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException("Unexpected SQLException while inserting ordering with message: " + e.getMessage());
         } finally {
             this.disconnect();
         }

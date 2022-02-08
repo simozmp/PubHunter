@@ -1,35 +1,28 @@
 package view.javafx.desktop;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import logic.bean.MenuItemBean;
+import logic.bean.OrderingLineBean;
+import logic.bean.TableServiceBean;
+import logic.controller.OrderController;
+import logic.exception.LogicException;
+import view.OrderViewControllerImpl;
 
 import java.net.URL;
 import java.util.Objects;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Line;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
-import logic.bean.OrderingLineBean;
-import logic.bean.TableServiceBean;
-import logic.exception.LogicException;
-import logic.controller.OrderController;
-import view.OrderViewController;
-
-public class DesktopOrderViewController implements OrderViewController {
+public class DesktopOrderViewController extends OrderViewControllerImpl {
 
     @FXML private AnchorPane errorDialogAnchorPane;
     @FXML private Label errorBodyLabel;
@@ -47,11 +40,6 @@ public class DesktopOrderViewController implements OrderViewController {
     //  Parents that compose the container body
     @FXML private Parent confirmOrderParent;
     @FXML private Parent orderSectionParent;
-
-    private ObservableList<MenuItemBean> menuItemsObservableList;
-    private ObservableList<MenuItemBean> entireMenuObservableList;
-    private ObservableList<OrderingLineBean> orderingLinesObservableList;
-    private ObservableList<String> sectionObservableList;
 
     private OrderController useCaseController;
 
@@ -73,8 +61,8 @@ public class DesktopOrderViewController implements OrderViewController {
         orderingLinesObservableList = FXCollections.observableArrayList();
         orderingListView.setItems(orderingLinesObservableList);
         orderingListView.setFixedCellSize(-1);
-        orderingListView.setCellFactory(listview -> new OrderingLineListCell(this));
-        orderingListView.setSelectionModel(new NoSelectionModel());
+        orderingListView.setCellFactory(listview -> new DesktopOrderingLineListCell(this));
+        orderingListView.setSelectionModel(new NoSelectionModel<>());
 
         //  Setting up the item counter button for the ordering
         orderingCountButton.setText("0");
@@ -181,15 +169,6 @@ public class DesktopOrderViewController implements OrderViewController {
         this.setRestaurantName(tableServiceBean.getRestaurantName());
     }
 
-    private void showItemsByCategory(String category) {
-        menuItemsObservableList.clear();
-
-        for (MenuItemBean bean : entireMenuObservableList)
-            if (Objects.equals(bean.getCategory(), category)) {
-                menuItemsObservableList.add(bean);
-            }
-    }
-
     private void updateOrderingCountButton() {
         int count = 0;
 
@@ -200,17 +179,7 @@ public class DesktopOrderViewController implements OrderViewController {
         this.orderingCountButton.setVisible(!orderingLinesObservableList.isEmpty());
     }
 
-    public int getItemOrderingCount(MenuItemBean bean) {
-        int result = 0;
-
-        for(OrderingLineBean beanIterator : orderingLinesObservableList)
-            if(beanIterator.getItemName().equals(bean.getName()))
-                result += beanIterator.getQuantity();
-
-        return result;
-    }
-
-    public void removeOrderingLine(OrderingLineBean bean) {
+    public void onRemoveOrderingLineButton(OrderingLineBean bean) {
         try {
             if(useCaseController.removeOrderingLine(bean)) {
                 if (!orderingLinesObservableList.remove(bean))

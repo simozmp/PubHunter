@@ -4,24 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Restaurant {
-    private String name;
-    private User manager;
-    private List<Table> tables;
-    private List<Ingredient> supplies;
-    private Menu menu;
+    private final String name;
+    private final User manager;
+    private final List<Table> tables;
+    private final List<Ingredient> supplies;
+    private final Menu menu;
     private int recordId;
 
-    public Restaurant(String name, User manager) {
+    public Restaurant(String name, User manager, int recordId) {
         this.name = name;
         this.manager = manager;
-        this.menu = new Menu(this);
+        this.menu = new Menu();
         this.tables = new ArrayList<>();
         this.supplies = new ArrayList<>();
-        this.recordId = -1;
+        this.recordId = recordId;
     }
 
-    public User getManager() {
-        return this.manager;
+    public Restaurant(String name, User manager) {
+        this(name, manager, -1);
     }
 
     public String getManagerEmailString() {
@@ -73,7 +73,7 @@ public class Restaurant {
         return this.recordId;
     }
 
-    public void setRecordId(int id) {
-        this.recordId = id;
+    public void setRecordId(int recordId) {
+        this.recordId = recordId;
     }
 }

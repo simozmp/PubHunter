@@ -1,18 +1,15 @@
 package logic.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Menu {
     private ArrayList<MenuItem> items;
-    private Restaurant restaurant;
 
-    public Menu(Restaurant restaurant, ArrayList<MenuItem> items) {
-        this(restaurant);
-        this.items = items;
+    public Menu(List<MenuItem> items) {
     }
 
-    public Menu(Restaurant restaurant) {
-        this.restaurant = restaurant;
+    public Menu() {
         this.items = new ArrayList<>();
     }
 

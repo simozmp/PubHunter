@@ -1,15 +1,15 @@
 package view.javafx.desktop;
 
-import javafx.scene.control.Label;
-import logic.bean.MenuItemBean;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import logic.bean.MenuItemBean;
 
 import java.io.IOException;
 import java.net.URL;
@@ -17,6 +17,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MenuItemListCell extends ListCell<MenuItemBean> {
     @FXML private StackPane root;
@@ -33,7 +35,7 @@ public class MenuItemListCell extends ListCell<MenuItemBean> {
     @FXML private Text notAvailableLabel;
 
     private FXMLLoader fxmlLoader;
-    private DesktopOrderViewController viewController;
+    private final DesktopOrderViewController viewController;
 
     private int count;
 
@@ -50,7 +52,7 @@ public class MenuItemListCell extends ListCell<MenuItemBean> {
 
             WebEngine infoWebEngine;
 
-            count = viewController.getItemOrderingCount(bean);
+            count = viewController.getItemOrderingQuantity(bean);
 
             if (fxmlLoader == null) {
                 fxmlLoader = new FXMLLoader(getClass().getResource("menu-item-list-cell.fxml"));
@@ -59,7 +61,7 @@ public class MenuItemListCell extends ListCell<MenuItemBean> {
                 try {
                     fxmlLoader.load();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Logger.getLogger("JavaFXApplication").log(Level.WARNING, "Couldn''t find fxml view file.", e);
                 }
             }
 
@@ -85,21 +87,9 @@ public class MenuItemListCell extends ListCell<MenuItemBean> {
 
             countLabel.setText(Integer.toString(count));
 
-            minusButton.setOnMouseClicked(mouseEvent -> {
-                if(this.count > 0) {
-                    this.getListView().getSelectionModel().clearAndSelect(this.getIndex());
-                    viewController.onMinusButton();
-                    count--;
-                    this.getListView().getSelectionModel().clearSelection();
-                }
-            });
+            minusButton.setOnMouseClicked(mouseEvent -> onMinusButton());
 
-            plusButton.setOnMouseClicked(mouseEvent ->  {
-                this.getListView().getSelectionModel().clearAndSelect(this.getIndex());
-                viewController.onPlusButton();
-                count++;
-                this.getListView().getSelectionModel().clearSelection();
-            });
+            plusButton.setOnMouseClicked(mouseEvent -> onPlusButton());
 
             if(!bean.isAvailable()) {
                 root.setDisable(true);
@@ -111,6 +101,22 @@ public class MenuItemListCell extends ListCell<MenuItemBean> {
             this.setFocusTraversable(false);
         } else
             this.setGraphic(null);
+    }
+
+    private void onPlusButton() {
+        this.getListView().getSelectionModel().clearAndSelect(this.getIndex());
+        viewController.onPlusButton();
+        count++;
+        this.getListView().getSelectionModel().clearSelection();
+    }
+
+    private void onMinusButton() {
+        if(this.count > 0) {
+            this.getListView().getSelectionModel().clearAndSelect(this.getIndex());
+            viewController.onMinusButton();
+            count--;
+            this.getListView().getSelectionModel().clearSelection();
+        }
     }
 
 }

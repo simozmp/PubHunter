@@ -38,18 +38,18 @@ public class DrinkItem extends MenuItem {
     public boolean isAvailable() {
         boolean persistenceAvailable = true;
 
-        try {
-            IngredientDAOImpl ingredientDAO = new IngredientDAOImpl();
-            MenuItemDAOImpl menuItemDAO = new MenuItemDAOImpl();
+        IngredientDAOImpl ingredientDAO = new IngredientDAOImpl();
+        MenuItemDAOImpl menuItemDAO = new MenuItemDAOImpl();
 
-            int restaurantId = menuItemDAO.getRestaurantIdForItem(this);
+        int restaurantId = 0;
+        try {
+            restaurantId = menuItemDAO.getRestaurantIdForItem(this);
 
             for (Ingredient ingredient : this.ingredients)
                 persistenceAvailable = persistenceAvailable &&
                         ingredientDAO.isIngredientAvailableAtRestaurant(ingredient, restaurantId);
 
         } catch (DAOException e) {
-            System.out.println(e.getMessage());
             e.printStackTrace();
         }
 

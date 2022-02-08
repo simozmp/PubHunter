@@ -1,14 +1,14 @@
 package logic.dao.implementation;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Objects;
-
 import logic.exception.DAOException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Objects;
 
 public abstract class DAOImpl implements logic.dao.DAO {
     Connection connection;

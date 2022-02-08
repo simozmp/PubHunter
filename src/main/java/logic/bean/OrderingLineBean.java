@@ -1,6 +1,5 @@
 package logic.bean;
 
-import logic.exception.LogicException;
 import logic.model.OrderingLine;
 
 import java.beans.PropertyChangeEvent;

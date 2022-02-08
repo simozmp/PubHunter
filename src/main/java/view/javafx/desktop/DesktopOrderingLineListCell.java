@@ -1,44 +1,37 @@
 package view.javafx.desktop;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import logic.bean.OrderingLineBean;
+import view.javafx.OrderingLineListCell;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Objects;
 
-public class OrderingLineListCell extends ListCell<OrderingLineBean> {
+public class DesktopOrderingLineListCell extends OrderingLineListCell {
 
-    private String notesForItem;
 
-    OrderingLineBean bean;
+    @FXML private AnchorPane root;
+    @FXML private HBox editItemHBox;
+    @FXML private Button editButton;
+    @FXML private Button removeButton;
+    @FXML private Label countLabel;
+    @FXML private Label nameLabel;
+    @FXML private Label descriptionLabel;
+    @FXML private Label priceLabel;
+    @FXML private ImageView picImageView;
+    @FXML private TextArea notesTextArea;
 
-    private FXMLLoader fxmlLoader;
-    private final DesktopOrderViewController viewController;
-    private boolean extended;
-
-    @FXML AnchorPane root;
-    @FXML HBox editItemHBox;
-    @FXML Button editButton;
-    @FXML Button removeButton;
-    @FXML Label countLabel;
-    @FXML Label nameLabel;
-    @FXML Label descriptionLabel;
-    @FXML Label priceLabel;
-    @FXML ImageView picImageView;
-    @FXML TextArea notesTextArea;
-
-    public OrderingLineListCell(DesktopOrderViewController viewController) {
+    public DesktopOrderingLineListCell(DesktopOrderViewController viewController) {
         this.viewController = viewController;
+        this.shrunkHeight = 100;
+        this.extendedHeight = 250;
     }
 
     @Override
@@ -49,16 +42,7 @@ public class OrderingLineListCell extends ListCell<OrderingLineBean> {
 
             this.bean = bean;
 
-            if(fxmlLoader == null) {
-                fxmlLoader = new FXMLLoader(getClass().getResource("ordering-item-list-cell.fxml"));
-                fxmlLoader.setController(this);
-
-                try {
-                    fxmlLoader.load();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            this.loadFxml("ordering-item-list-cell.fxml");
 
             this.countLabel.setText(bean.getQuantity() + "x");
 
@@ -76,7 +60,7 @@ public class OrderingLineListCell extends ListCell<OrderingLineBean> {
             pencilIconImageView.setFitHeight(30);
             pencilIconImageView.setFitWidth(30);
             editButton.setGraphic(pencilIconImageView);
-            editButton.setOnMouseClicked(mouseEvent -> onEditButtonMouseClick());
+            editButton.setOnMouseClicked(mouseEvent -> onEditButtonMouseClick(editItemHBox));
 
             this.picImageView.setImage(new Image(
                     Objects.requireNonNull(getClass().getResource("dish.png")).toExternalForm()));
@@ -85,40 +69,12 @@ public class OrderingLineListCell extends ListCell<OrderingLineBean> {
             this.priceLabel.setText("€ " + new DecimalFormat("#.00#").format(bean.getPrice()));
 
             notesTextArea.setPromptText("Write your notes here...");
-            notesTextArea.setOnKeyTyped(keyEvent -> {
-                viewController.addNotesToLine(notesTextArea.getText(), bean);
-            });
+            notesTextArea.setOnKeyTyped(keyEvent -> viewController.addNotesToLine(notesTextArea.getText(), bean));
 
             this.setGraphic(root);
 
             this.setFocusTraversable(false);
         } else
             setGraphic(null);
-    }
-
-    private void onRemoveButtonClick() {
-        viewController.removeOrderingLine(bean);
-    }
-
-    @FXML
-    private void onEditButtonMouseClick() {
-        if(!extended)
-            extendCell();
-        else
-            shrinkCell();
-    }
-
-    private void extendCell() {
-        this.setPrefHeight(250);
-        editItemHBox.setVisible(true);
-        extended = true;
-        updateItem(bean, false);
-    }
-
-    private void shrinkCell() {
-        this.setPrefHeight(100);
-        editItemHBox.setVisible(false);
-        extended = false;
-        updateItem(bean, false);
     }
 }

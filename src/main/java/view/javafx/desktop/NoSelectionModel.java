@@ -3,9 +3,30 @@ package view.javafx.desktop;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.MultipleSelectionModel;
-import logic.bean.MenuItemBean;
 
-public class NoSelectionModel extends MultipleSelectionModel {
+public class NoSelectionModel<T> extends MultipleSelectionModel<T> {
+    @Override
+    public ObservableList<Integer> getSelectedIndices() {
+        //  Empty method to implement a "no selection" model
+        return FXCollections.emptyObservableList();
+    }
+
+    @Override
+    public ObservableList<T> getSelectedItems() {
+        //  Empty method to implement a "no selection" model
+        return FXCollections.emptyObservableList();
+    }
+
+    @Override
+    public void selectIndices(int i, int... ints) {
+        //  Empty method to implement a "no selection" model
+    }
+
+    @Override
+    public void selectAll() {
+        //  Empty method to implement a "no selection" model
+    }
+
     @Override
     public void clearAndSelect(int i) {
         //  Empty method to implement a "no selection" model
@@ -17,7 +38,7 @@ public class NoSelectionModel extends MultipleSelectionModel {
     }
 
     @Override
-    public void select(Object o) {
+    public void select(T t) {
         //  Empty method to implement a "no selection" model
     }
 
@@ -33,12 +54,14 @@ public class NoSelectionModel extends MultipleSelectionModel {
 
     @Override
     public boolean isSelected(int i) {
+        //  Empty method to implement a "no selection" model
         return false;
     }
 
     @Override
     public boolean isEmpty() {
-        return true;
+        //  Empty method to implement a "no selection" model
+        return false;
     }
 
     @Override
@@ -48,26 +71,6 @@ public class NoSelectionModel extends MultipleSelectionModel {
 
     @Override
     public void selectNext() {
-        //  Empty method to implement a "no selection" model
-    }
-
-    @Override
-    public ObservableList<Integer> getSelectedIndices() {
-        return FXCollections.emptyObservableList();
-    }
-
-    @Override
-    public ObservableList<MenuItemBean> getSelectedItems() {
-        return FXCollections.emptyObservableList();
-    }
-
-    @Override
-    public void selectIndices(int i, int... ints) {
-        //  Empty method to implement a "no selection" model
-    }
-
-    @Override
-    public void selectAll() {
         //  Empty method to implement a "no selection" model
     }
 

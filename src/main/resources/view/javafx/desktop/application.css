@@ -92,6 +92,7 @@
     -fx-padding: 0 0.5 0 0.5;
     -fx-background-color: #5C5E61;
 }
+
 .tag-btn {
     -fx-background-color: #FDE68A;
     -fx-background-radius: 20;
@@ -105,10 +106,6 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 5000, 0.3, 0, 0);
 }
 
-.list-cell:selected {
-    -fx-padding: 0;
-    -fx-background-color: #EEF2F7;
-}
 
 .list-cell {
     -fx-padding: 0;

@@ -1,7 +1,6 @@
 package view.javafx.mobile;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -9,32 +8,28 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import logic.bean.OrderingLineBean;
+import view.javafx.OrderingLineListCell;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Objects;
 
-public class MobileOrderingLineListCell extends javafx.scene.control.ListCell<logic.bean.OrderingLineBean> {
+public class MobileOrderingLineListCell extends OrderingLineListCell {
 
-    OrderingLineBean bean;
-
-    private FXMLLoader fxmlLoader;
-    private final MobileOrderViewController viewController;
-    private boolean extended;
-
-    @FXML AnchorPane root;
-    @FXML AnchorPane editItemAnchorPane;
-    @FXML ImageView writingNotesStatusIconImageView;
-    @FXML Button editButton;
-    @FXML Button removeButton;
-    @FXML Label countLabel;
-    @FXML Label nameLabel;
-    @FXML Label priceLabel;
-    @FXML ImageView picImageView;
-    @FXML TextArea notesTextArea;
+    @FXML private AnchorPane editItemAnchorPane;
+    @FXML private AnchorPane root;
+    @FXML private ImageView writingNotesStatusIconImageView;
+    @FXML private Button editButton;
+    @FXML private Button removeButton;
+    @FXML private Label countLabel;
+    @FXML private Label nameLabel;
+    @FXML private Label priceLabel;
+    @FXML private ImageView picImageView;
+    @FXML private TextArea notesTextArea;
 
     public MobileOrderingLineListCell(MobileOrderViewController viewController) {
         this.viewController = viewController;
+        this.extendedHeight = 170;
+        this.shrunkHeight = 70;
     }
 
     @Override
@@ -45,28 +40,19 @@ public class MobileOrderingLineListCell extends javafx.scene.control.ListCell<lo
 
             this.bean = bean;
 
-            if(fxmlLoader == null) {
-                fxmlLoader = new FXMLLoader(getClass().getResource("mobile-ordering-line-list-cell.fxml"));
-                fxmlLoader.setController(this);
-
-                try {
-                    fxmlLoader.load();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            this.loadFxml("mobile-ordering-line-list-cell.fxml");
 
             this.countLabel.setText(bean.getQuantity() + "x");
 
             ImageView trashIconImageView = new ImageView(new Image(
-                    getClass().getResource("octicon_trash-24.png").toExternalForm()));
+                    Objects.requireNonNull(getClass().getResource("octicon_trash-24.png")).toExternalForm()));
             removeButton.setGraphic(trashIconImageView);
             removeButton.setOnMouseClicked(mouseEvent -> onRemoveButtonClick());
 
             ImageView pencilIconImageView = new ImageView(new Image(
-                    getClass().getResource("clarity_note-edit-line.png").toExternalForm()));
+                    Objects.requireNonNull(getClass().getResource("clarity_note-edit-line.png")).toExternalForm()));
             editButton.setGraphic(pencilIconImageView);
-            editButton.setOnMouseClicked(mouseEvent -> onEditButtonMouseClick());
+            editButton.setOnMouseClicked(mouseEvent -> onEditButtonMouseClick(editItemAnchorPane));
 
             this.nameLabel.setText(bean.getItemName());
             this.priceLabel.setText("€ " + new DecimalFormat("#.00#").format(bean.getPrice()));
@@ -86,31 +72,5 @@ public class MobileOrderingLineListCell extends javafx.scene.control.ListCell<lo
             this.setFocusTraversable(false);
         } else
             setGraphic(null);
-    }
-
-    private void onRemoveButtonClick() {
-        viewController.onRemoveOrderingLineButton(bean);
-    }
-
-    @FXML
-    private void onEditButtonMouseClick() {
-        if(!extended)
-            extendCell();
-        else
-            shrinkCell();
-    }
-
-    private void extendCell() {
-        this.setPrefHeight(170);
-        editItemAnchorPane.setVisible(true);
-        extended = true;
-        updateItem(bean, false);
-    }
-
-    private void shrinkCell() {
-        this.setPrefHeight(70);
-        editItemAnchorPane.setVisible(false);
-        extended = false;
-        updateItem(bean, false);
     }
 }

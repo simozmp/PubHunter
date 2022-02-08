@@ -23,7 +23,7 @@ public class OrderingDAOImpl extends DAOImpl implements logic.dao.OrderingDAO {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException("Unexpected SQLException while inserting ordering with message: " + e.getMessage());
         } finally {
             this.disconnect();
         }
@@ -47,7 +47,7 @@ public class OrderingDAOImpl extends DAOImpl implements logic.dao.OrderingDAO {
             ordering.setRecordId(resultSet.getInt("id"));
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException("Unexpected SQLException while inserting ordering with message: " + e.getMessage());
         } finally {
             this.disconnect();
         }
