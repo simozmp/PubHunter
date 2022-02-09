@@ -5,8 +5,10 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import logic.controller.OrderController;
+import logic.dao.TableServiceDAO;
 import logic.dao.UserDAO;
 import logic.dao.implementation.RestaurantDAOImpl;
+import logic.dao.implementation.TableServiceDAOImpl;
 import logic.dao.implementation.UserDAOImpl;
 import logic.exception.DAOException;
 import logic.exception.DAOInsertOnExistingItemException;
@@ -30,20 +32,20 @@ public class MainDemoApplicationViewController {
 
     @FXML
     private void demoMobileOrderUC() throws AddressException, PwdHasherException, EnvironmentLoadException {
-        polymorphDemoUC("MOBILE");
+        demoUC("MOBILE");
     }
 
     @FXML
     private void demoDesktopOrderUC() throws AddressException, PwdHasherException, EnvironmentLoadException {
-        polymorphDemoUC("DESKTOP");
+        demoUC("DESKTOP");
     }
 
-    private void polymorphDemoUC(String environment) throws EnvironmentLoadException, AddressException, PwdHasherException {
+    private void demoUC(String environment) throws EnvironmentLoadException, AddressException, PwdHasherException {
         Stage demoStage = (Stage) this.root.getScene().getWindow();
 
         consolePrintln("Populating db...");
 
-        TableService service = awesomeServiceData();
+        TableService service = populateDBWithStubServiceData();
 
         consolePrintln("...done!");
 
@@ -89,7 +91,9 @@ public class MainDemoApplicationViewController {
      * @return The TableService object referring to the written data
      * @throws PwdHasherException if environment does not provide utils for hashing password
      */
-    public static TableService awesomeServiceData() throws AddressException, PwdHasherException {
+    public static TableService populateDBWithStubServiceData() throws AddressException, PwdHasherException {
+
+        TableService service;
 
         ArrayList<MenuItem> menuItemList = new ArrayList<>();
 
@@ -196,6 +200,16 @@ public class MainDemoApplicationViewController {
             e.printStackTrace();
         }
 
-        return new TableService(restaurantTable, customer, LocalDate.now(), LocalTime.now());
+        service = new TableService(restaurantTable, customer, LocalDate.now(), LocalTime.now());
+
+        TableServiceDAO tableServiceDAO = new TableServiceDAOImpl();
+
+        try {
+            tableServiceDAO.insert(service);
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
+
+        return service;
     }
 }

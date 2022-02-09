@@ -154,15 +154,15 @@
       </BorderPane>
    </VBox>
 
-   <AnchorPane fx:id="errorDialogAnchorPane" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+   <AnchorPane fx:id="dialogAnchorPane" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <Rectangle height="1024.0" layoutX="20.0" layoutY="210.0" style="-fx-fill: rgb(0,0,0,.7)" width="1441.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Rectangle arcHeight="50.0" arcWidth="50.0" height="200.0" styleClass="error-dialog" width="340.0" AnchorPane.leftAnchor="550.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="200.0" />
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="200.0">
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
-         <Label fx:id="errorTitleLabel" style="-fx-font-size: 18" styleClass="dark-label" text="An error occurred!" />
-         <Label fx:id="errorBodyLabel" style="-fx-font-size: 12" styleClass="dark-label" text="Error message" />
+         <Label fx:id="dialogTitleLabel" style="-fx-font-size: 18" styleClass="dark-label" text="An error occurred!" />
+         <Label fx:id="dialogBodyLabel" style="-fx-font-size: 12" styleClass="dark-label" text="Error message" />
          <Pane prefHeight="0.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
          <Button fx:id="dismissErrorButton" mnemonicParsing="false" prefWidth="250.0" styleClass="accent-flat-button" text="Dismiss" />
       </VBox>

@@ -3,6 +3,10 @@ package logic.controller;
 import logic.bean.MenuItemBean;
 import logic.bean.OrderingLineBean;
 import logic.bean.TableServiceBean;
+import logic.boundary.OperatorBoundary;
+import logic.boundary.OperatorBoundaryMock;
+import logic.dao.OrderingDAO;
+import logic.dao.implementation.OrderingDAOImpl;
 import logic.dao.implementation.RestaurantDAOImpl;
 import logic.exception.DAOException;
 import logic.exception.LogicException;
@@ -16,7 +20,7 @@ import java.util.Objects;
 
 public class OrderController {
     private final TableService service;
-    private final Ordering currentOrdering;
+    private Ordering currentOrdering;
     private Restaurant workingRestaurant;
 
     OrderViewController orderViewController;
@@ -28,18 +32,18 @@ public class OrderController {
         try {
             orderViewController.bindUseCaseController(this);
         } catch(LogicException e) {
-            orderViewController.showError("Logic exception" + e.getMessage());
+            orderViewController.showDismissableError("Logic exception" + e.getMessage());
         }
 
         this.service = service;
 
-        this.currentOrdering = new Ordering(service);
+        this.currentOrdering = new Ordering(this.service);
 
         RestaurantDAOImpl restaurantDAO = new RestaurantDAOImpl();
         try {
             this.workingRestaurant = restaurantDAO.readRestaurantById(service.getRestaurantId());
         } catch (DAOException e) {
-            orderViewController.showError("DAOException: " + e.getMessage());
+            orderViewController.showDismissableError("DAOException: " + e.getMessage());
         }
 
         orderViewController.setService(new TableServiceBean(service));
@@ -60,7 +64,7 @@ public class OrderController {
             if(currentOrdering.add(item))
                 orderViewController.setOrdering(beansFromCurrentOrdering());
         } else
-            orderViewController.showError(
+            orderViewController.showDismissableError(
                     "Sorry, it seems that " + selectedItemBean.getName() + " is not available anymore.");
     }
 
@@ -94,15 +98,38 @@ public class OrderController {
     }
 
     public void resetOrdering() {
-        this.currentOrdering.clear();
+        this.currentOrdering = new Ordering(this.service);
+        orderViewController.setOrdering(null);
     }
 
     public void sendOrdering() {
+        String message;
+
+        OrderingDAO orderingDAO = new OrderingDAOImpl();
+
+        OperatorBoundary operatorBoundary = new OperatorBoundaryMock(workingRestaurant.getRecordId());
+
+        orderViewController.showDialog("Sending order, please wait..");
+
+        currentOrdering.setSent();
+
         try {
-            this.service.addOrdering(currentOrdering);
-        } catch (LogicException e) {
-            orderViewController.showError(e.getMessage());
+            orderingDAO.insert(currentOrdering);
+        } catch (DAOException e) {
+            orderViewController.showDismissableError("Error writing current ordering in persistence!\n" +
+                    "Message: " + e.getMessage());
+            return;
         }
+
+        if(operatorBoundary.sendOrderingBean(beansFromCurrentOrdering())) {
+            message = "Order has been sent to kitchen.";
+            resetOrdering();
+        } else
+            message = "Restaurant couldn't receive ordering, please try again.";
+
+        orderViewController.dismissDialog();
+
+        orderViewController.showDismissableDialog(message);
     }
 
     private OrderingLineBean[] beansFromCurrentOrdering() {

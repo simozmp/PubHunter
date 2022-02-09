@@ -4,10 +4,14 @@ package view;
 import javafx.collections.ObservableList;
 import logic.bean.MenuItemBean;
 import logic.bean.OrderingLineBean;
+import logic.controller.OrderController;
+import logic.exception.LogicException;
 
 import java.util.Objects;
 
 public abstract class OrderViewControllerImpl implements OrderViewController {
+
+    protected OrderController useCaseController;
 
     protected ObservableList<MenuItemBean> menuItemsObservableList;
     protected ObservableList<MenuItemBean> entireMenuObservableList;
@@ -23,6 +27,27 @@ public abstract class OrderViewControllerImpl implements OrderViewController {
             }
     }
 
+    protected abstract void onBackToMenuButton();
+
+    @Override
+    public void bindUseCaseController(OrderController controller) throws LogicException {
+        if(this.useCaseController == null)
+            useCaseController = controller;
+        else
+            throw new LogicException("Controller already registered on view!");
+    }
+
+    @Override
+    public void setOrdering(OrderingLineBean[] allBeans) {
+        orderingLinesObservableList.clear();
+
+        if(allBeans != null)
+            orderingLinesObservableList.setAll(allBeans);
+        else
+            onBackToMenuButton();
+    }
+
+
     public int getItemOrderingQuantity(MenuItemBean bean) {
         int result = 0;
 
@@ -31,5 +56,18 @@ public abstract class OrderViewControllerImpl implements OrderViewController {
                 result += beanIterator.getQuantity();
 
         return result;
+    }
+
+    @Override
+    public void onRemoveOrderingLineButton(OrderingLineBean bean) {
+        try {
+            if(useCaseController.removeOrderingLine(bean)) {
+                if (!orderingLinesObservableList.remove(bean))
+                    showDismissableError("Trying to remove an OrderingLineBean which is not in the list");
+            } else
+                showDismissableError("Logic error while removing ordering line!");
+        } catch (LogicException e) {
+            showDismissableError("Logic error while removing ordering line");
+        }
     }
 }

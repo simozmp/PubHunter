@@ -33,10 +33,11 @@ public class OrderingDAOImpl extends DAOImpl implements logic.dao.OrderingDAO {
         //  Second query: a select to get the record id, and to set it into the object
         this.connect();
 
-        query = "SELECT id, table_service_fk FROM service_orderings WHERE table_service_fk = ?";
+        query = "SELECT id, table_service_fk FROM service_orderings WHERE sent_date = ? AND sent_time = ?";
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, ordering.getServiceId());
+            preparedStatement.setString(1, ordering.getSentDate().toString());
+            preparedStatement.setString(2, ordering.getSentTime().toString());
 
             ResultSet resultSet = preparedStatement.executeQuery();
 

@@ -9,6 +9,7 @@ module PubHunter {
     requires java.desktop;
     requires java.sql;
     requires org.json;
+    requires awaitility;
 
     exports view;
     opens view to javafx.fxml;
@@ -26,4 +27,6 @@ module PubHunter {
     exports view.javafx.mobile;
     opens view.javafx.mobile to javafx.fxml;
     exports view.javafx;
+    exports logic.boundary;
+    opens logic.boundary to javafx.fxml;
 }

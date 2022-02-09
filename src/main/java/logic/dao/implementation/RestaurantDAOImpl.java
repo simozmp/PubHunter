@@ -147,7 +147,6 @@ public class RestaurantDAOImpl extends DAOImpl implements logic.dao.RestaurantDA
                 menuItemDAO.updateItem(restaurant.getMenuItem(i), restaurant);
             }
 
-
         for(int i=0; i<restaurant.getTablesCount(); i++)
             try {
                 tableDAO.insert(restaurant.getTable(i));

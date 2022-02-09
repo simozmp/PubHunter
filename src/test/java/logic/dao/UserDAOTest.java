@@ -4,13 +4,15 @@ import logic.dao.implementation.UserDAOImpl;
 import logic.exception.DAOException;
 import logic.exception.PwdHasherException;
 import logic.model.User;
-
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
+/**
+ * This class
+ */
 class UserDAOTest {
     @Test
     void testIOMatching() throws AddressException, DAOException, PwdHasherException {

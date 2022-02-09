@@ -81,4 +81,8 @@ public class OrderingLine {
     public void addNotes(String text) {
         this.notes = text;
     }
+
+    public int getItemId() {
+        return item.getRecordId();
+    }
 }

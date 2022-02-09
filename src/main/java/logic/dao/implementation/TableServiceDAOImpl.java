@@ -1,5 +1,6 @@
 package logic.dao.implementation;
 
+import logic.dao.TableServiceDAO;
 import logic.exception.DAOException;
 import logic.model.TableService;
 import logic.model.User;
@@ -8,7 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TableServiceDAOImpl extends DAOImpl {
+public class TableServiceDAOImpl extends DAOImpl implements TableServiceDAO {
+    @Override
     public void insert(TableService tableService) throws DAOException {
 
         this.connect();
@@ -76,7 +78,8 @@ public class TableServiceDAOImpl extends DAOImpl {
      * @param preparedStatement
      * @throws SQLException
      */
-    private void prepareStatementForTableService(TableService tableService, PreparedStatement preparedStatement)
+    @Override
+    public void prepareStatementForTableService(TableService tableService, PreparedStatement preparedStatement)
             throws SQLException {
         preparedStatement.setString(1, tableService.getOpenedDate().toString());
         preparedStatement.setString(2, tableService.getOpenedTime().toString());

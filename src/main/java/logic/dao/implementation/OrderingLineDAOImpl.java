@@ -17,13 +17,13 @@ public class OrderingLineDAOImpl extends DAOImpl implements logic.dao.OrderingLi
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, ordering.getRecordId());
-            preparedStatement.setInt(2, line.getItem().getRecordId());
+            preparedStatement.setInt(2, line.getItemId());
             preparedStatement.setInt(3, line.getQuantity());
             preparedStatement.setString(4, line.getNotes());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new DAOException("Unexpected SQLException while inserting ordering with message: " + e.getMessage());
+            throw new DAOException("Unexpected SQLException while inserting ordering line with message: " + e.getMessage());
         } finally {
             this.disconnect();
         }

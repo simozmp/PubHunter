@@ -14,7 +14,6 @@ import javafx.scene.layout.HBox;
 import logic.bean.MenuItemBean;
 import logic.bean.OrderingLineBean;
 import logic.bean.TableServiceBean;
-import logic.controller.OrderController;
 import logic.exception.LogicException;
 import view.OrderViewControllerImpl;
 
@@ -22,10 +21,10 @@ import java.util.Objects;
 
 public class MobileOrderViewController extends OrderViewControllerImpl {
 
-    @FXML private AnchorPane errorDialogAnchorPane;
-    @FXML private Button dismissErrorButton;
-    @FXML private Label errorBodyLabel;
-    @FXML private Label errorTitleLabel;
+    @FXML private AnchorPane dialogAnchorPane;
+    @FXML private Button dismissDialogButton;
+    @FXML private Label dialogBodyLabel;
+    @FXML private Label dialogTitleLabel;
     @FXML private AnchorPane orderingOverviewAnchorPane;
     @FXML private ListView<String> sectionListView;
     @FXML private ListView<MenuItemBean> itemsListView;
@@ -39,8 +38,6 @@ public class MobileOrderViewController extends OrderViewControllerImpl {
     @FXML private Button reviewOrderingButton;
     @FXML private Button sendOrderBtn;
     private Hyperlink backHyperlink;
-
-    private OrderController useCaseController;
 
     @FXML
     private void initialize() {
@@ -66,7 +63,6 @@ public class MobileOrderViewController extends OrderViewControllerImpl {
         //  Setting up the item counter button for the ordering
         orderingCountButton.setText("0");
         orderingCountButton.setVisible(false);
-
         orderingLinesObservableList = FXCollections.observableArrayList();
         orderingListView.setItems(orderingLinesObservableList);
         orderingListView.setCellFactory(listView -> new MobileOrderingLineListCell(this));
@@ -89,7 +85,7 @@ public class MobileOrderViewController extends OrderViewControllerImpl {
         
         sendOrderBtn.setOnMouseClicked(mouseEvent -> useCaseController.sendOrdering());
 
-        dismissErrorButton.setOnMouseClicked(mouseEvent -> onDismissErrorButton());
+        dismissDialogButton.setOnMouseClicked(mouseEvent -> onDismissErrorButton());
 
         sectionLabel.setText("Sections");
         navigatorSeparationImageView.setImage(new Image(Objects.requireNonNull(
@@ -116,7 +112,6 @@ public class MobileOrderViewController extends OrderViewControllerImpl {
         orderingOverviewAnchorPane.setVisible(false);
 
         reviewOrderingButton.setVisible(true);
-        orderingCountButton.setVisible(true);
         itemsListView.setVisible(true);
         itemsListView.refresh();
 
@@ -136,7 +131,6 @@ public class MobileOrderViewController extends OrderViewControllerImpl {
         orderingOverviewAnchorPane.setVisible(false);
 
         reviewOrderingButton.setVisible(true);
-        orderingCountButton.setVisible(true);
         sectionListView.setVisible(true);
 
         titleHBox.getChildren().remove(0);
@@ -156,6 +150,7 @@ public class MobileOrderViewController extends OrderViewControllerImpl {
             count += lineBean.getQuantity();
 
         this.orderingCountButton.setText(Integer.toString(count));
+        this.orderingCountButton.setVisible(!orderingLinesObservableList.isEmpty());
     }
 
     /**
@@ -167,7 +162,7 @@ public class MobileOrderViewController extends OrderViewControllerImpl {
             useCaseController.addToOrdering(itemsListView.getSelectionModel().getSelectedItem());
             this.orderingCountButton.setVisible(!orderingLinesObservableList.isEmpty());
         } catch (LogicException e) {
-            showError(e.getMessage());
+            showDismissableError(e.getMessage());
         }
     }
 
@@ -182,27 +177,40 @@ public class MobileOrderViewController extends OrderViewControllerImpl {
             if(orderingLinesObservableList.isEmpty())
                 orderingCountButton.setVisible(false);
         } catch(LogicException e) {
-            this.showError(e.getMessage());
+            this.showDismissableError(e.getMessage());
         }
     }
 
     @Override
-    public void bindUseCaseController(OrderController controller) throws LogicException {
-        if(this.useCaseController == null)
-            useCaseController = controller;
-        else
-            throw new LogicException("Controller already registered on view!");
+    public void showDismissableError(String errorMessage) {
+        dialogTitleLabel.setText("Error");
+        dialogBodyLabel.setText(errorMessage);
+        dismissDialogButton.setVisible(true);
+        dialogAnchorPane.setVisible(true);
     }
 
     @Override
-    public void showError(String s) {
-        errorBodyLabel.setText(s);
-        errorDialogAnchorPane.setVisible(true);
+    public void showDismissableDialog(String errorMessage) {
+        dialogTitleLabel.setText("Dialog");
+        dialogBodyLabel.setText(errorMessage);
+        dismissDialogButton.setVisible(true);
+        dialogAnchorPane.setVisible(true);
+    }
+
+    @Override
+    public void showDialog(String dialogMessage) {
+        dialogTitleLabel.setText("Status");
+        dialogBodyLabel.setText(dialogMessage);
+        dismissDialogButton.setVisible(false);
+        dialogAnchorPane.setVisible(true);
+    }
+
+    public void dismissDialog() {
+        dialogAnchorPane.setVisible(false);
     }
 
     private void onDismissErrorButton() {
-        errorBodyLabel.setText("error message");
-        errorDialogAnchorPane.setVisible(false);
+        dismissDialog();
     }
 
     @Override
@@ -220,23 +228,11 @@ public class MobileOrderViewController extends OrderViewControllerImpl {
     }
 
     @Override
-    public void setOrdering(OrderingLineBean[] allBeans) {
-        orderingLinesObservableList.clear();
-        orderingLinesObservableList.addAll(allBeans);
+    protected void onBackToMenuButton() {
+        backToSections();
     }
 
-    public void onRemoveOrderingLineButton(OrderingLineBean bean) {
-        try {
-            if(useCaseController.removeOrderingLine(bean)) {
-                if (!orderingLinesObservableList.remove(bean))
-                    showError("Trying to remove an OrderingLineBean which is not in the list");
-            } else
-                showError("Logic error while removing ordering line!");
-        } catch (LogicException e) {
-            showError("Logic error while removing ordering line");
-        }
-    }
-
+    @Override
     public void addNotesToLine(String text, OrderingLineBean bean) {
         useCaseController.addNotesToOrderingLine(text, bean);
     }

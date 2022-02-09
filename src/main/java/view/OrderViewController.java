@@ -9,7 +9,13 @@ import logic.exception.LogicException;
 public interface OrderViewController {
     void bindUseCaseController(OrderController orderController) throws LogicException;
 
-    void showError(String s);
+    void showDismissableError(String errorMessage);
+
+    void showDialog(String dialogMessage);
+
+    void showDismissableDialog(String dialogMessage);
+
+    void dismissDialog();
 
     void setService(TableServiceBean tableServiceBean);
 

@@ -1,19 +1,18 @@
 package logic.model;
 
-import logic.exception.LogicException;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TableService {
-    private Table tableReference;
-    private LocalDate openedDate;
-    private LocalTime openedTime;
+    private final Table tableReference;
+    private final LocalDate openedDate;
+    private final LocalTime openedTime;
     private LocalDate closedDate;
     private LocalTime closedTime;
-    private ArrayList<Ordering> orderings;
-    private Customer customer;
+    private final List<Ordering> orderings;
+    private final Customer customer;
     private int recordId;
 
     public TableService(Table tableReference, Customer customer, LocalDate date, LocalTime openedTime) {
@@ -22,12 +21,6 @@ public class TableService {
         this.openedDate = date;
         this.openedTime = openedTime;
         this.orderings = new ArrayList<>();
-    }
-
-    public void addOrdering(Ordering newOrdering) throws LogicException {
-        newOrdering.setTableService(this);
-        newOrdering.setSent();
-        orderings.add(newOrdering);
     }
 
     public Ordering getOrdering(int index) {
@@ -51,11 +44,11 @@ public class TableService {
     }
 
     public LocalDate getClosedDate() {
-        return closedDate;
+        return closedDate == null ? LocalDate.MIN : closedDate;
     }
 
     public LocalTime getClosedTime() {
-        return closedTime;
+        return closedTime == null ? LocalTime.MIN : closedTime;
     }
 
     public int getRecordId() {

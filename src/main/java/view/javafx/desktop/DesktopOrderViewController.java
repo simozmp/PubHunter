@@ -15,7 +15,6 @@ import javafx.scene.web.WebView;
 import logic.bean.MenuItemBean;
 import logic.bean.OrderingLineBean;
 import logic.bean.TableServiceBean;
-import logic.controller.OrderController;
 import logic.exception.LogicException;
 import view.OrderViewControllerImpl;
 
@@ -24,8 +23,9 @@ import java.util.Objects;
 
 public class DesktopOrderViewController extends OrderViewControllerImpl {
 
-    @FXML private AnchorPane errorDialogAnchorPane;
-    @FXML private Label errorBodyLabel;
+    @FXML private Label dialogTitleLabel;
+    @FXML private AnchorPane dialogAnchorPane;
+    @FXML private Label dialogBodyLabel;
     @FXML private Button dismissErrorButton;
     @FXML private WebView logoWebView;
     @FXML private Button reviewOrderingButton;
@@ -40,8 +40,6 @@ public class DesktopOrderViewController extends OrderViewControllerImpl {
     //  Parents that compose the container body
     @FXML private Parent confirmOrderParent;
     @FXML private Parent orderSectionParent;
-
-    private OrderController useCaseController;
 
     @FXML
     private void initialize() {
@@ -84,28 +82,17 @@ public class DesktopOrderViewController extends OrderViewControllerImpl {
 
         sendOrderButton.setOnMouseClicked(mouseEvent -> useCaseController.sendOrdering());
 
-        dismissErrorButton.setOnMouseClicked(mouseEvent -> onDismissErrorButton());
+        dismissErrorButton.setOnMouseClicked(mouseEvent -> dismissDialog());
     }
 
     public void setRestaurantName(String restaurantName) {
         this.containerLabel.setText(restaurantName + " · Menu");
     }
 
-    public void bindUseCaseController(OrderController controller) throws LogicException {
-        if(this.useCaseController == null)
-            useCaseController = controller;
-        else
-            throw new LogicException("Controller already registered on view!");
-    }
-
+    @Override
     public void setMenu(MenuItemBean[] allBeans) {
         entireMenuObservableList.addAll(allBeans);
         updateSections();
-    }
-
-    @Override
-    public void setOrdering(OrderingLineBean[] allBeans) {
-        orderingLinesObservableList.setAll(allBeans);
     }
 
     private void updateSections() {
@@ -118,7 +105,7 @@ public class DesktopOrderViewController extends OrderViewControllerImpl {
         try {
             useCaseController.addToOrdering(menuItemListView.getSelectionModel().getSelectedItem());
         } catch (LogicException e) {
-            showError(e.getMessage());
+            showDismissableError(e.getMessage());
         }
     }
 
@@ -126,7 +113,7 @@ public class DesktopOrderViewController extends OrderViewControllerImpl {
         try {
             useCaseController.removeFromOrdering(menuItemListView.getSelectionModel().getSelectedItem());
         } catch(LogicException e) {
-            this.showError(e.getMessage());
+            this.showDismissableError(e.getMessage());
         }
     }
 
@@ -156,15 +143,36 @@ public class DesktopOrderViewController extends OrderViewControllerImpl {
         showItemsByCategory(category);
     }
 
-    public void showError(String message) {
-        errorBodyLabel.setText("Error: " + message);
-        errorDialogAnchorPane.setVisible(true);
+    @Override
+    public void showDismissableError(String errorMessage) {
+        dialogTitleLabel.setText("Error");
+        dialogBodyLabel.setText("Message: " + errorMessage);
+        dismissErrorButton.setVisible(true);
+        dialogAnchorPane.setVisible(true);
     }
 
-    private void onDismissErrorButton() {
-        errorDialogAnchorPane.setVisible(false);
+    @Override
+    public void showDismissableDialog(String dialogMessage) {
+        dialogTitleLabel.setText("Dialog");
+        dialogBodyLabel.setText(dialogMessage);
+        dismissErrorButton.setVisible(true);
+        dialogAnchorPane.setVisible(true);
     }
 
+    @Override
+    public void showDialog(String errorMessage) {
+        dialogTitleLabel.setText("Status");
+        dialogBodyLabel.setText("Message: " + errorMessage);
+        dismissErrorButton.setVisible(false);
+        dialogAnchorPane.setVisible(true);
+    }
+
+    @Override
+    public void dismissDialog() {
+        dialogAnchorPane.setVisible(false);
+    }
+
+    @Override
     public void setService(TableServiceBean tableServiceBean) {
         this.setRestaurantName(tableServiceBean.getRestaurantName());
     }
@@ -179,18 +187,7 @@ public class DesktopOrderViewController extends OrderViewControllerImpl {
         this.orderingCountButton.setVisible(!orderingLinesObservableList.isEmpty());
     }
 
-    public void onRemoveOrderingLineButton(OrderingLineBean bean) {
-        try {
-            if(useCaseController.removeOrderingLine(bean)) {
-                if (!orderingLinesObservableList.remove(bean))
-                    showError("Trying to remove an OrderingLineBean which is not in the list");
-            } else
-                showError("Logic error while removing ordering line!");
-        } catch (LogicException e) {
-            showError("Logic error while removing ordering line");
-        }
-    }
-
+    @Override
     public void addNotesToLine(String notes, OrderingLineBean bean) {
         useCaseController.addNotesToOrderingLine(notes, bean);
     }
