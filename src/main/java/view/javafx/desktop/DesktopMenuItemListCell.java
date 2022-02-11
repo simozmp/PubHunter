@@ -24,6 +24,7 @@ public class DesktopMenuItemListCell extends ListCell<MenuItemBean> {
     @FXML private StackPane root;
     @FXML private WebView infoWebView;
     @FXML private Label nameLabel;
+    @FXML private Label descriptionLabel;
     @FXML private Label ingredientsLabel;
     @FXML private Button tag1Btn;
     @FXML private Button tag2Btn;
@@ -66,7 +67,8 @@ public class DesktopMenuItemListCell extends ListCell<MenuItemBean> {
             }
 
             this.nameLabel.setText(bean.getName());
-            this.ingredientsLabel.setText(bean.getDescription());
+            this.ingredientsLabel.setText(bean.getIngredientsString());
+            this.descriptionLabel.setText(bean.getDescription());
             this.priceLabel.setText("€ " + new DecimalFormat("#.00#").format(bean.getPrice()));
 
             infoWebEngine = infoWebView.getEngine();
