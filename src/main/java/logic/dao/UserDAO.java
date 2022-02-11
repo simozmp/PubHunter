@@ -14,8 +14,4 @@ public interface UserDAO extends DAO {
     void removeUserByEmail(String userEmail) throws DAOException;
 
     User getManagerByRestaurantId(int id) throws DAOException;
-
-    byte[] serializePasswordTrace(PasswordTrace passwordTrace) throws DAOException;
-
-    PasswordTrace deserializePasswordTrace(byte[] serializedPasswordTrace) throws DAOException;
 }

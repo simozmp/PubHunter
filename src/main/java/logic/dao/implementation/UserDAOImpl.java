@@ -20,8 +20,6 @@ public class UserDAOImpl extends DAOImpl implements logic.dao.UserDAO {
     public void insert(String firstName, String lastName, String email, PasswordTrace password) throws DAOException {
         this.connect();
 
-        byte[] serializedPwd = serializePasswordTrace(password);
-
         String query = "INSERT INTO users(first_name, last_name, email, pwd, sign_up_datetime)" +
                 "VALUES (?,?,?,?,?)";
 
@@ -30,7 +28,7 @@ public class UserDAOImpl extends DAOImpl implements logic.dao.UserDAO {
             preparedStatement.setString(1, firstName);
             preparedStatement.setString(2, lastName);
             preparedStatement.setString(3, email);
-            preparedStatement.setBytes(4, Base64.getEncoder().encode(serializedPwd));
+            preparedStatement.setBytes(4, Base64.getEncoder().encode(password.serialize()));
             preparedStatement.setString(5, LocalDate.now() + "%" + LocalTime.now().toString());
 
             //  Executing query
@@ -40,6 +38,8 @@ public class UserDAOImpl extends DAOImpl implements logic.dao.UserDAO {
                 throw new DAOInsertOnExistingItemException("User with email \"" + email + "\" is already registered into the db");
             else
                 throw new DAOException("Unexpected SQLException in UserDAO with message: " + e.getMessage());
+        } catch (IOException e) {
+            throw new DAOException("Password encoding error: IOException");
         } finally {
             this.disconnect();
         }
@@ -76,7 +76,7 @@ public class UserDAOImpl extends DAOImpl implements logic.dao.UserDAO {
             String userFirstName = resultSet.getString("first_name");
             String userLastName = resultSet.getString("last_name");
             String userEmail = resultSet.getString("email");
-            PasswordTrace userPwd = deserializePasswordTrace(
+            PasswordTrace userPwd = PasswordTrace.deserialize(
                     Base64.getDecoder().decode(resultSet.getBytes("pwd")));
 
             user = new User(userFirstName, userLastName, userEmail, userPwd);
@@ -85,6 +85,12 @@ public class UserDAOImpl extends DAOImpl implements logic.dao.UserDAO {
         } catch (AddressException e) {
             throw new DBInconsistencyException(userWithEmailString + email +
                     "\" has been found, but the mail is not a valid InternetAddress.");
+        } catch (ClassNotFoundException e) {
+            throw new DAOException("Password decoding error: ClassNotFoundException");
+        } catch (ClassCastException e) {
+            throw new DAOException("Password decoding error: ClassCastException");
+        } catch (IOException e) {
+            throw new DAOException("Password decoding error: IOException");
         } finally {
             this.disconnect();
         }
@@ -128,7 +134,7 @@ public class UserDAOImpl extends DAOImpl implements logic.dao.UserDAO {
 
             resultSet.next();
 
-            PasswordTrace passwordTrace = deserializePasswordTrace(
+            PasswordTrace passwordTrace = PasswordTrace.deserialize(
                     Base64.getDecoder().decode(resultSet.getBytes("pwd")));
 
             manager = new User(resultSet.getString("first_name"),
@@ -141,6 +147,13 @@ public class UserDAOImpl extends DAOImpl implements logic.dao.UserDAO {
                 "\" has been found, but the mail is not a valid InternetAddress.");
         } catch (SQLException e) {
             throw new DAOException("DB connection error. (SQLException with message \"" + e.getMessage() +"\")");
+        } catch (ClassNotFoundException e) {
+            throw new DAOException("Password decoding error: ClassNotFoundException");
+        } catch (ClassCastException e) {
+            throw new DAOException("Password decoding error: ClassCastException");
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new DAOException("Password decoding error: IOException");
         } finally {
             this.disconnect();
         }
@@ -148,45 +161,5 @@ public class UserDAOImpl extends DAOImpl implements logic.dao.UserDAO {
         this.disconnect();
 
         return manager;
-    }
-
-    @Override
-    public byte[] serializePasswordTrace(PasswordTrace passwordTrace) throws DAOException {
-        byte[] result = null;
-
-        try {
-            ByteArrayOutputStream passwordByteArray = new ByteArrayOutputStream();
-
-            ObjectOutputStream passwordOutputStream = new ObjectOutputStream(passwordByteArray);
-            passwordOutputStream.writeObject(passwordTrace);
-            passwordOutputStream.flush();
-
-            result = passwordByteArray.toByteArray();
-        } catch (IOException e) {
-            throw new DAOException("Password encoding error: IOException");
-        }
-
-        return result;
-    }
-
-    @Override
-    public PasswordTrace deserializePasswordTrace(byte[] serializedPasswordTrace) throws DAOException {
-
-        PasswordTrace deserializedPasswordTrace;
-
-        ByteArrayInputStream passwordByteArray = new ByteArrayInputStream(serializedPasswordTrace);
-
-        try {
-            ObjectInputStream objectInputStream = new ObjectInputStream(passwordByteArray);
-            deserializedPasswordTrace = (PasswordTrace) objectInputStream.readObject();
-        } catch (ClassNotFoundException e) {
-            throw new DAOException("Password decoding error: ClassNotFoundException");
-        } catch (ClassCastException e) {
-            throw new DAOException("Password decoding error: ClassCastException");
-        } catch (IOException e) {
-            throw new DAOException("Password decoding error: IOException");
-        }
-
-        return deserializedPasswordTrace;
     }
 }

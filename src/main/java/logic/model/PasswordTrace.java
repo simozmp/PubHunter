@@ -1,8 +1,9 @@
 package logic.model;
 
+import logic.exception.DAOException;
 import logic.exception.PwdHasherException;
 
-import java.io.Serializable;
+import java.io.*;
 
 /**
  * This class represents a password trace, a set of a hash String and a key used to encrypt it.
@@ -10,11 +11,15 @@ import java.io.Serializable;
 public class PasswordTrace implements Serializable {
 
     /**
-        The hashed password                     */
+        This is used to identify class during I/O ({de,}serialization)          */
+    private static final long serialVersionUID = 6529685098267757690L;
+
+    /**
+        The hashed password                                                     */
     private String hash;
 
     /**
-        The key used for hashing the password   */
+        The key used for hashing the password                                   */
     private byte[] key;
 
     /**
@@ -24,6 +29,18 @@ public class PasswordTrace implements Serializable {
     public PasswordTrace(String hash, byte[] key) {
         this.hash = hash;
         this.key = key.clone();
+    }
+
+    public static PasswordTrace deserialize(byte[] serializedPasswordTrace) throws IOException, ClassNotFoundException {
+        PasswordTrace deserializedPasswordTrace;
+
+        ByteArrayInputStream passwordByteArray = new ByteArrayInputStream(serializedPasswordTrace);
+
+        ObjectInputStream objectInputStream = new ObjectInputStream(passwordByteArray);
+
+        deserializedPasswordTrace = (PasswordTrace) objectInputStream.readObject();
+
+        return deserializedPasswordTrace;
     }
 
     /**
@@ -37,5 +54,20 @@ public class PasswordTrace implements Serializable {
         PasswordHasher hasher = new PasswordHasher(key);
 
         return hasher.hashPwd(candidate).equals(hash);
+    }
+
+    public byte[] serialize() throws IOException {
+        byte[] result = null;
+
+
+        ByteArrayOutputStream passwordByteArray = new ByteArrayOutputStream();
+
+        ObjectOutputStream passwordOutputStream = new ObjectOutputStream(passwordByteArray);
+        passwordOutputStream.writeObject(this);
+        passwordOutputStream.flush();
+
+        result = passwordByteArray.toByteArray();
+
+        return result;
     }
 }
