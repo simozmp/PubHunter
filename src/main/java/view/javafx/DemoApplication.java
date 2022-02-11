@@ -1,9 +1,8 @@
-package view.javafx.desktop;
+package view.javafx;
 
 import javafx.stage.Stage;
-import view.javafx.JFXMLApplication;
 
-public class MainDemoApplication extends JFXMLApplication {
+public class DemoApplication extends JFXMLApplication {
 
     @Override
     public void start(Stage stage) {

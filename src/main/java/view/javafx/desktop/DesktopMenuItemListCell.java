@@ -20,7 +20,7 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MenuItemListCell extends ListCell<MenuItemBean> {
+public class DesktopMenuItemListCell extends ListCell<MenuItemBean> {
     @FXML private StackPane root;
     @FXML private WebView infoWebView;
     @FXML private Label nameLabel;
@@ -39,7 +39,7 @@ public class MenuItemListCell extends ListCell<MenuItemBean> {
 
     private int count;
 
-    public MenuItemListCell(DesktopOrderViewController viewController) {
+    public DesktopMenuItemListCell(DesktopOrderViewController viewController) {
         this.viewController = viewController;
     }
 

@@ -1,4 +1,4 @@
-package view;
+package view.javafx;
 
 
 import javafx.collections.ObservableList;
@@ -6,10 +6,11 @@ import logic.bean.MenuItemBean;
 import logic.bean.OrderingLineBean;
 import logic.controller.OrderController;
 import logic.exception.LogicException;
+import view.OrderViewController;
 
 import java.util.Objects;
 
-public abstract class OrderViewControllerImpl implements OrderViewController {
+public abstract class OrderJFXViewController implements OrderViewController {
 
     protected OrderController useCaseController;
 

@@ -15,11 +15,11 @@ import logic.bean.MenuItemBean;
 import logic.bean.OrderingLineBean;
 import logic.bean.TableServiceBean;
 import logic.exception.LogicException;
-import view.OrderViewControllerImpl;
+import view.javafx.OrderJFXViewController;
 
 import java.util.Objects;
 
-public class MobileOrderViewController extends OrderViewControllerImpl {
+public class MobileOrderViewController extends OrderJFXViewController {
 
     @FXML private AnchorPane dialogAnchorPane;
     @FXML private Button dismissDialogButton;
@@ -80,7 +80,7 @@ public class MobileOrderViewController extends OrderViewControllerImpl {
 
         sectionObservableList = FXCollections.observableArrayList();
         sectionListView.setItems(sectionObservableList);
-        sectionListView.setCellFactory(listView -> new MobileSectionListCellController());
+        sectionListView.setCellFactory(listView -> new MobileSectionListCell());
         sectionListView.setOnMouseClicked(mouseEvent -> openSection());
         
         sendOrderBtn.setOnMouseClicked(mouseEvent -> useCaseController.sendOrdering());

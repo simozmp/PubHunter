@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SectionListCellController extends javafx.scene.control.ListCell<String> {
+public class DesktopSectionListCell extends javafx.scene.control.ListCell<String> {
     @FXML private BorderPane root;
     @FXML private Label sectionLabel;
     @FXML private Rectangle backgroundRectangle;

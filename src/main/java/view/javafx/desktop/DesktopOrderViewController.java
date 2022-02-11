@@ -16,12 +16,13 @@ import logic.bean.MenuItemBean;
 import logic.bean.OrderingLineBean;
 import logic.bean.TableServiceBean;
 import logic.exception.LogicException;
-import view.OrderViewControllerImpl;
+import view.javafx.NoSelectionModel;
+import view.javafx.OrderJFXViewController;
 
 import java.net.URL;
 import java.util.Objects;
 
-public class DesktopOrderViewController extends OrderViewControllerImpl {
+public class DesktopOrderViewController extends OrderJFXViewController {
 
     @FXML private Label dialogTitleLabel;
     @FXML private AnchorPane dialogAnchorPane;
@@ -73,11 +74,11 @@ public class DesktopOrderViewController extends OrderViewControllerImpl {
 
         menuItemsObservableList = FXCollections.observableArrayList();
         menuItemListView.setItems(menuItemsObservableList);
-        menuItemListView.setCellFactory(listView -> new MenuItemListCell(this));
+        menuItemListView.setCellFactory(listView -> new DesktopMenuItemListCell(this));
 
         sectionObservableList = FXCollections.observableArrayList();
         sectionListView.setItems(sectionObservableList);
-        sectionListView.setCellFactory(listView -> new SectionListCellController());
+        sectionListView.setCellFactory(listView -> new DesktopSectionListCell());
         sectionListView.setOnMouseClicked(mouseEvent -> switchSection());
 
         sendOrderButton.setOnMouseClicked(mouseEvent -> useCaseController.sendOrdering());

@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MobileSectionListCellController extends javafx.scene.control.ListCell<String> {
+public class MobileSectionListCell extends javafx.scene.control.ListCell<String> {
 
     @FXML private AnchorPane root;
     @FXML private Label sectionLabel;

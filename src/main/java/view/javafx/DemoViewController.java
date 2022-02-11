@@ -1,4 +1,4 @@
-package view.javafx.desktop;
+package view.javafx;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
@@ -15,7 +15,7 @@ import logic.exception.DAOInsertOnExistingItemException;
 import logic.exception.EnvironmentLoadException;
 import logic.exception.PwdHasherException;
 import logic.model.*;
-import view.OrderApplication;
+import view.javafx.desktop.DesktopOrderApplication;
 import view.javafx.mobile.MobileOrderApplication;
 
 import javax.mail.internet.AddressException;
@@ -25,7 +25,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class MainDemoApplicationViewController {
+public class DemoViewController {
 
     @FXML AnchorPane root;
     @FXML TextArea consoleTextArea;

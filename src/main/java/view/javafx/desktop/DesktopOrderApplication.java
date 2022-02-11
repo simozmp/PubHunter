@@ -1,7 +1,7 @@
 package view.javafx.desktop;
 
 import javafx.stage.Stage;
-import view.OrderApplication;
+import view.javafx.OrderApplication;
 
 public class DesktopOrderApplication extends OrderApplication {
 
@@ -11,6 +11,6 @@ public class DesktopOrderApplication extends OrderApplication {
 
     @Override
     public void start(Stage primaryStage) {
-        startWithFXMLAndCss(primaryStage, "order-view.fxml", "application.css");
+        startWithFXMLAndCss(primaryStage, "order-view.fxml", "desktop.css");
     }
 }
