@@ -14,6 +14,7 @@ import javafx.scene.layout.HBox;
 import logic.bean.MenuItemBean;
 import logic.bean.OrderingLineBean;
 import logic.bean.TableServiceBean;
+import logic.exception.DAOException;
 import logic.exception.LogicException;
 import view.javafx.OrderJFXViewController;
 
@@ -163,6 +164,8 @@ public class MobileOrderViewController extends OrderJFXViewController {
             this.orderingCountButton.setVisible(!orderingLinesObservableList.isEmpty());
         } catch (LogicException e) {
             showDismissableError(e.getMessage());
+        }catch (DAOException e) {
+            showDismissableError("Error while reading from DB: " + e.getMessage());
         }
     }
 

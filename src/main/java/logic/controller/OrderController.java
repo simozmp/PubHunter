@@ -5,7 +5,9 @@ import logic.bean.OrderingLineBean;
 import logic.bean.TableServiceBean;
 import logic.boundary.OperatorBoundary;
 import logic.boundary.OperatorBoundaryMock;
+import logic.dao.MenuItemDAO;
 import logic.dao.OrderingDAO;
+import logic.dao.implementation.MenuItemDAOImpl;
 import logic.dao.implementation.OrderingDAOImpl;
 import logic.dao.implementation.RestaurantDAOImpl;
 import logic.exception.DAOException;
@@ -56,11 +58,13 @@ public class OrderController {
         orderViewController.setMenu(menuItems);
     }
 
-    public void addToOrdering(MenuItemBean selectedItemBean) throws LogicException {
+    public void addToOrdering(MenuItemBean selectedItemBean) throws LogicException, DAOException {
 
         MenuItem item = findWorkingRestaurantMenuItemByBean(selectedItemBean);
 
-        if(item.updateFromPersistence() && item.isAvailable()) {
+        MenuItemDAO menuItemDAO = new MenuItemDAOImpl();
+
+        if(menuItemDAO.refreshItem(item) && item.isAvailable()) {
             if(currentOrdering.add(item))
                 orderViewController.setOrdering(beansFromCurrentOrdering());
         } else

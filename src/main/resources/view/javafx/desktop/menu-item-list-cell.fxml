@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?><?import javafx.scene.canvas.Canvas?><?import javafx.scene.control.*?><?import javafx.scene.layout.*?><?import javafx.scene.shape.Rectangle?><?import javafx.scene.text.Font?><?import javafx.scene.text.Text?><?import javafx.scene.web.WebView?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
+
 <StackPane fx:id="root" style="-fx-background-color: #F7FAFC" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#EEF2F7" height="200.0" strokeType="INSIDE" style="    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 5);" width="830.0" />
    <BorderPane>
@@ -38,13 +45,18 @@
                      <Button fx:id="tag3Btn" mnemonicParsing="false" styleClass="tag-btn" text="Tag3" visible="false" />
                   </HBox>
                </HBox>
-               <Label fx:id="ingredientsLabel" styleClass="dark-label" text="Ingredient1, Ingredient 2.." xmlns:fx="http://javafx.com/fxml/1">
+               <Label fx:id="descriptionLabel" styleClass="dark-label" text="Ingredient1, Ingredient 2.." xmlns:fx="http://javafx.com/fxml/1">
                   <font>
                      <Font size="16.0" />
                   </font>
                   <VBox.margin>
                      <Insets bottom="10.0" top="10.0" />
                   </VBox.margin>
+               </Label>
+               <Label fx:id="ingredientsLabel" styleClass="dark-label" style="-fx-font-size: 14" text="Ingredient1, Ingredient 2..">
+                  <font>
+                     <Font size="16.0" />
+                  </font>
                </Label>
                <HBox alignment="CENTER">
                   <VBox.margin>
@@ -56,8 +68,7 @@
                      </font>
                   </Label>
                   <Pane prefHeight="0.0" HBox.hgrow="ALWAYS" />
-                  <Text fx:id="notAvailableLabel" styleClass="warning-text-label" visible="false"
-                      text="This product is not available to order." />
+                  <Text fx:id="notAvailableLabel" styleClass="warning-text-label" text="This product is not available to order." visible="false" />
                </HBox>
             </VBox>
             <VBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="NEVER">

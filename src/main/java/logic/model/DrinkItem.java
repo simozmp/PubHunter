@@ -27,7 +27,9 @@ public class DrinkItem extends MenuItem {
     }
 
     public void addIngredient(Ingredient ingredient) {
+        String oldValue = getIngredientsString();
         this.ingredients.add(ingredient);
+        propertyChangeSupport.firePropertyChange("ingredients", oldValue, getIngredientsString());
     }
 
     public int getTheCocktailDBId() {
@@ -63,7 +65,7 @@ public class DrinkItem extends MenuItem {
         for(Ingredient ingredient : ingredients)
             result.append(ingredient.getDescription()).append(", ");
 
-        return result.substring(0, result.length()-2).concat(".");
+        return result.length() > 2 ? result.substring(0, result.length()-2).concat(".") : "";
     }
 
     /**

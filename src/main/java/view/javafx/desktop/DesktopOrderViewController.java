@@ -15,6 +15,7 @@ import javafx.scene.web.WebView;
 import logic.bean.MenuItemBean;
 import logic.bean.OrderingLineBean;
 import logic.bean.TableServiceBean;
+import logic.exception.DAOException;
 import logic.exception.LogicException;
 import view.javafx.NoSelectionModel;
 import view.javafx.OrderJFXViewController;
@@ -107,6 +108,8 @@ public class DesktopOrderViewController extends OrderJFXViewController {
             useCaseController.addToOrdering(menuItemListView.getSelectionModel().getSelectedItem());
         } catch (LogicException e) {
             showDismissableError(e.getMessage());
+        } catch (DAOException e) {
+            showDismissableError("Error while reading from DB: " + e.getMessage());
         }
     }
 

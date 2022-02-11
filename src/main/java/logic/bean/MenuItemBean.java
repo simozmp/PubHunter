@@ -10,6 +10,7 @@ import java.util.List;
 public class MenuItemBean implements PropertyChangeListener {
     private String name;
     private String description;
+    private String ingredients;
     private double price;
     private String category;
     private final List<String> tags;
@@ -21,6 +22,7 @@ public class MenuItemBean implements PropertyChangeListener {
 
         this.name = reference.getName();
         this.description = reference.getDescription();
+        this.ingredients = reference.getIngredientsString();
 
         this.tags = new ArrayList<>();
         for(int i=0; i<reference.getTagCount(); i++)
@@ -41,6 +43,10 @@ public class MenuItemBean implements PropertyChangeListener {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getIngredientsString() {
+        return this.ingredients;
     }
 
     public String getName() {
@@ -88,6 +94,9 @@ public class MenuItemBean implements PropertyChangeListener {
                 break;
             case "available":
                 this.available = (boolean) evt.getNewValue();
+                break;
+            case "ingredients":
+                this.ingredients = (String) evt.getNewValue();
                 break;
             default:
                 break;

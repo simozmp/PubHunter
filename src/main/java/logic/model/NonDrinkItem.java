@@ -29,15 +29,13 @@ public class NonDrinkItem extends MenuItem {
         return this.ingredientsString;
     }
 
-    public boolean isAvailability() {
-        return availability;
-    }
-
     public void setAvailability(boolean availability) {
         this.availability = availability;
     }
 
     public void setIngredientsString(String ingredientsString) {
+        String oldValue = getIngredientsString();
         this.ingredientsString = ingredientsString;
+        propertyChangeSupport.firePropertyChange("ingredients", oldValue, getIngredientsString());
     }
 }

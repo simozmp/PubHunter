@@ -17,7 +17,7 @@ public abstract class MenuItem {
      * To dispatch PropertyChangeEvent-s to beans that implements PropertyChangeListener
      * and are bound to an instance of this class.
      */
-    private final PropertyChangeSupport propertyChangeSupport;
+    protected final PropertyChangeSupport propertyChangeSupport;
 
     /*
         Set of properties for a menu item (business model)
@@ -101,24 +101,6 @@ public abstract class MenuItem {
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.propertyChangeSupport.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        this.propertyChangeSupport.removePropertyChangeListener(listener);
-    }
-
-    public boolean updateFromPersistence() {
-        MenuItemDAOImpl menuItemDAO = new MenuItemDAOImpl();
-
-        boolean result = false;
-
-        try {
-            result = menuItemDAO.refreshItem(this);
-        } catch (DAOException e) {
-            result = false;
-        }
-
-        return result;
     }
 
     public int getRecordId() {
