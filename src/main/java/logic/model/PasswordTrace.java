@@ -1,6 +1,5 @@
 package logic.model;
 
-import logic.exception.DAOException;
 import logic.exception.PwdHasherException;
 
 import java.io.*;

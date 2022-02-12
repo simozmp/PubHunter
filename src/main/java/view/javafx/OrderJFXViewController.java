@@ -10,9 +10,7 @@ import view.OrderViewController;
 
 import java.util.Objects;
 
-public abstract class OrderJFXViewController implements OrderViewController {
-
-    protected OrderController useCaseController;
+public abstract class OrderJFXViewController extends OrderViewController {
 
     protected ObservableList<MenuItemBean> menuItemsObservableList;
     protected ObservableList<MenuItemBean> entireMenuObservableList;
@@ -59,7 +57,6 @@ public abstract class OrderJFXViewController implements OrderViewController {
         return result;
     }
 
-    @Override
     public void onRemoveOrderingLineButton(OrderingLineBean bean) {
         try {
             if(useCaseController.removeOrderingLine(bean)) {
@@ -70,5 +67,9 @@ public abstract class OrderJFXViewController implements OrderViewController {
         } catch (LogicException e) {
             showDismissableError("Logic error while removing ordering line");
         }
+    }
+
+    public void addNotesToLine(String notes, OrderingLineBean bean) {
+        useCaseController.addNotesToOrderingLine(notes, bean);
     }
 }

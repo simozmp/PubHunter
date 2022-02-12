@@ -8,13 +8,13 @@ public class Restaurant {
     private final User manager;
     private final List<Table> tables;
     private final List<Ingredient> supplies;
-    private final Menu menu;
+    private final List<MenuItem> menuItems;
     private int recordId;
 
     public Restaurant(String name, User manager, int recordId) {
         this.name = name;
         this.manager = manager;
-        this.menu = new Menu();
+        this.menuItems = new ArrayList<>();
         this.tables = new ArrayList<>();
         this.supplies = new ArrayList<>();
         this.recordId = recordId;
@@ -33,15 +33,15 @@ public class Restaurant {
     }
 
     public MenuItem getMenuItem(int index) {
-        return menu.getItem(index);
+        return this.menuItems.get(index);
     }
 
     public int getMenuSize() {
-        return menu.getSize();
+        return this.menuItems.size();
     }
 
     public void addMenuItem(MenuItem item) {
-        this.menu.addItem(item);
+        this.menuItems.add(item);
     }
 
     public void addSupply(Ingredient ingredient) {
@@ -57,7 +57,7 @@ public class Restaurant {
     }
 
     public void addTable(Table restaurantTable) {
-        restaurantTable.registerAtRestaurant(this);
+        restaurantTable.bindToRestaurant(this);
         tables.add(restaurantTable);
     }
 

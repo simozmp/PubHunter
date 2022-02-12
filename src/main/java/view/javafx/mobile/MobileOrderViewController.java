@@ -234,9 +234,4 @@ public class MobileOrderViewController extends OrderJFXViewController {
     protected void onBackToMenuButton() {
         backToSections();
     }
-
-    @Override
-    public void addNotesToLine(String text, OrderingLineBean bean) {
-        useCaseController.addNotesToOrderingLine(text, bean);
-    }
 }

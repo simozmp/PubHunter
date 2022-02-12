@@ -15,7 +15,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class RestaurantDAOImpl extends DAOImpl implements logic.dao.RestaurantDAO {
+/**
+ * Implementation of a RestaurantDAO
+ */
+public class RestaurantDAOImpl extends JDBCDataAccessObjectImpl implements logic.dao.RestaurantDAO {
     @Override
     public void insert(Restaurant restaurant) throws DAOException {
 

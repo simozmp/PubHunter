@@ -190,9 +190,4 @@ public class DesktopOrderViewController extends OrderJFXViewController {
         this.orderingCountButton.setText(Integer.toString(count));
         this.orderingCountButton.setVisible(!orderingLinesObservableList.isEmpty());
     }
-
-    @Override
-    public void addNotesToLine(String notes, OrderingLineBean bean) {
-        useCaseController.addNotesToOrderingLine(notes, bean);
-    }
 }

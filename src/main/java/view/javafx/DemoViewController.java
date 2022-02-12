@@ -30,14 +30,17 @@ public class DemoViewController {
     @FXML AnchorPane root;
     @FXML TextArea consoleTextArea;
 
+    private static final String DESKTOP_ENV = "DESKTOP";
+    private static final String MOBILE_ENV = "MOBILE";
+
     @FXML
     private void demoMobileOrderUC() throws AddressException, PwdHasherException, EnvironmentLoadException {
-        demoUC("MOBILE");
+        demoUC(MOBILE_ENV);
     }
 
     @FXML
     private void demoDesktopOrderUC() throws AddressException, PwdHasherException, EnvironmentLoadException {
-        demoUC("DESKTOP");
+        demoUC(DESKTOP_ENV);
     }
 
     private void demoUC(String environment) throws EnvironmentLoadException, AddressException, PwdHasherException {
@@ -54,10 +57,10 @@ public class DemoViewController {
         OrderApplication orderApplication = null;
 
         switch (environment) {
-            case "DESKTOP":
+            case DESKTOP_ENV:
                 orderApplication = new DesktopOrderApplication();
                 break;
-            case "MOBILE":
+            case MOBILE_ENV:
                 orderApplication = new MobileOrderApplication();
                 break;
             default:

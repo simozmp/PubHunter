@@ -11,7 +11,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TableDAOImpl extends DAOImpl implements logic.dao.TableDAO {
+/**
+ * Implementation of a TableDAO
+ */
+public class TableDAOImpl extends JDBCDataAccessObjectImpl implements logic.dao.TableDAO {
 
     @Override
     public void insert(Table table) throws DAOException {

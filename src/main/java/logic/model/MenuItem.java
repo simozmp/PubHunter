@@ -1,8 +1,5 @@
 package logic.model;
 
-import logic.dao.implementation.MenuItemDAOImpl;
-import logic.exception.DAOException;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;

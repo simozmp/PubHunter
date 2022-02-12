@@ -11,7 +11,7 @@ public class OperatorBoundaryMock implements OperatorBoundary {
     }
 
     @Override
-    public synchronized boolean sendOrderingBean(OrderingLineBean[] orderingBean) {
+    public synchronized boolean notifyNewOrdering(OrderingLineBean[] orderingBean, int restaurantRecordId) {
         return true;
     }
 }

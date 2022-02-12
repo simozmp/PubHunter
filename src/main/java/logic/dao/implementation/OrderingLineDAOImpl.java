@@ -7,7 +7,10 @@ import logic.model.OrderingLine;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class OrderingLineDAOImpl extends DAOImpl implements logic.dao.OrderingLineDAO {
+/**
+ * Implementation of an OrderingLineDAO
+ */
+public class OrderingLineDAOImpl extends JDBCDataAccessObjectImpl implements logic.dao.OrderingLineDAO {
     @Override
     public void insert(OrderingLine line, Ordering ordering) throws DAOException {
 

@@ -5,6 +5,9 @@ import logic.model.OrderingLine;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+/**
+ * Bean class for OrderingLine class.
+ */
 public class OrderingLineBean implements PropertyChangeListener {
 
     private final String itemName;

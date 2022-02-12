@@ -11,9 +11,11 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
 /**
- * This class
+ * A test class for UserDAO.
+ *
+ * @author simozmp
  */
-class UserDAOTest {
+class UserRemoteDBDAOTest {
     @Test
     void testIOMatching() throws AddressException, DAOException, PwdHasherException {
 
@@ -32,7 +34,7 @@ class UserDAOTest {
         User inputErichUser = new User(erichFirstName, erichLastName, new InternetAddress(erichEmail), erichPwd);
 
         //  DAO instantiation
-        UserDAOImpl dao = new UserDAOImpl();
+        UserDAO dao = new UserDAOImpl();
 
         //  Writing users into persistence
         dao.insert(inputKentUser);

@@ -7,7 +7,7 @@ import logic.model.PasswordTrace;
 import logic.model.User;
 
 import javax.mail.internet.AddressException;
-import java.io.*;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,9 +15,12 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Base64;
 
-public class UserDAOImpl extends DAOImpl implements logic.dao.UserDAO {
-    @Override
-    public void insert(String firstName, String lastName, String email, PasswordTrace password) throws DAOException {
+/**
+ * Implementation of a UserDAO
+ */
+public class UserDAOImpl extends JDBCDataAccessObjectImpl implements logic.dao.UserDAO {
+
+    private void insert(String firstName, String lastName, String email, PasswordTrace password) throws DAOException {
         this.connect();
 
         String query = "INSERT INTO users(first_name, last_name, email, pwd, sign_up_datetime)" +

@@ -2,7 +2,6 @@ package view.javafx;
 
 import javafx.stage.Stage;
 import view.OrderViewController;
-import view.javafx.JFXMLApplication;
 
 public abstract class OrderApplication extends JFXMLApplication {
 

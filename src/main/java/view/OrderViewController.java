@@ -6,24 +6,23 @@ import logic.bean.TableServiceBean;
 import logic.controller.OrderController;
 import logic.exception.LogicException;
 
-public interface OrderViewController {
-    void bindUseCaseController(OrderController orderController) throws LogicException;
+public abstract class OrderViewController {
 
-    void showDismissableError(String errorMessage);
+    protected OrderController useCaseController;
 
-    void showDialog(String dialogMessage);
+    public abstract void bindUseCaseController(OrderController orderController) throws LogicException;
 
-    void showDismissableDialog(String dialogMessage);
+    public abstract void showDismissableError(String errorMessage);
 
-    void dismissDialog();
+    public abstract void showDialog(String dialogMessage);
 
-    void setService(TableServiceBean tableServiceBean);
+    public abstract void showDismissableDialog(String dialogMessage);
 
-    void setMenu(MenuItemBean[] menuItems);
+    public abstract void dismissDialog();
 
-    void onRemoveOrderingLineButton(OrderingLineBean bean);
+    public abstract void setService(TableServiceBean tableServiceBean);
 
-    void addNotesToLine(String notes, OrderingLineBean orderingBean);
+    public abstract void setMenu(MenuItemBean[] menuItems);
 
-    void setOrdering(OrderingLineBean[] bean);
+    public abstract void setOrdering(OrderingLineBean[] bean);
 }

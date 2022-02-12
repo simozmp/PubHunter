@@ -7,7 +7,11 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Bean class for MenuItem class.
+ */
 public class MenuItemBean implements PropertyChangeListener {
+
     private String name;
     private String description;
     private String ingredients;

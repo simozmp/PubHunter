@@ -9,6 +9,11 @@ import javax.mail.internet.InternetAddress;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * A test class for Restaurant.
+ *
+ * @author simozmp
+ */
 class RestaurantTest {
 
     private static final String TEST_RESTAURANT_NAME = "TestRestaurant";

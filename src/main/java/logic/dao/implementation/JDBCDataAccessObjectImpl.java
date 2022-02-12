@@ -1,5 +1,6 @@
 package logic.dao.implementation;
 
+import logic.dao.JDBCDataAccessObject;
 import logic.exception.DAOException;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,9 +11,17 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Objects;
 
-public abstract class DAOImpl implements logic.dao.DAO {
+/**
+ * Implementation of a JDBCDataAccessObject. Uses dbms url specified in the "config.json" resource file.
+ */
+public abstract class JDBCDataAccessObjectImpl implements JDBCDataAccessObject {
     Connection connection;
 
+    /**
+     * Opens connection to dbms by url as specified in the "config.json" resource file.
+     *
+     * @throws DAOException if error occurs. Details in exception message.
+     */
     @Override
     public void connect() throws DAOException {
         try {
@@ -30,6 +39,11 @@ public abstract class DAOImpl implements logic.dao.DAO {
         }
     }
 
+    /**
+     * Closes connection to dbms by url as specified in the "config.json" resource file.
+     *
+     * @throws DAOException if error occurs. Details in exception message.
+     */
     @Override
     public void disconnect() throws DAOException {
         try {

@@ -27,6 +27,10 @@ public class TableService {
         return this.orderings.get(index);
     }
 
+    public void addOrdering(Ordering ordering) {
+        this.orderings.add(ordering);
+    }
+
     public int getOrderingsCount() {
         return this.orderings.size();
     }

@@ -1,8 +1,8 @@
 package logic.model;
 
 public class Table {
-    private String representation;
-    private int seats;
+    private final String representation;
+    private final int seats;
     private Restaurant restaurant;
 
     public Table(String representation, int seats) {
@@ -10,7 +10,7 @@ public class Table {
         this.seats = seats;
     }
 
-    public void registerAtRestaurant(Restaurant restaurant) {
+    public void bindToRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
     }
 

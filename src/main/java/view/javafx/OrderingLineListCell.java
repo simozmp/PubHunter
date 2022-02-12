@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 import logic.bean.OrderingLineBean;
-import view.OrderViewController;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -16,7 +15,7 @@ public abstract class OrderingLineListCell extends ListCell<OrderingLineBean> {
     protected FXMLLoader fxmlLoader;
 
     protected OrderingLineBean bean;
-    protected OrderViewController viewController;
+    protected OrderJFXViewController viewController;
     protected boolean extended;
 
     protected int shrunkHeight;

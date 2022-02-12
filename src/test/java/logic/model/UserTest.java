@@ -6,8 +6,13 @@ import org.junit.jupiter.api.Test;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * A test class for User.
+ *
+ * @author simozmp
+ */
 class UserTest {
 
     private static final String TEST_FIRST_NAME = "Mister";

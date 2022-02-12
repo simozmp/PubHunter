@@ -12,7 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class IngredientDAOImpl extends DAOImpl implements logic.dao.IngredientDAO {
+/**
+ * JDBC implementation of an IngredientDAO
+ */
+public class IngredientDAOImpl extends JDBCDataAccessObjectImpl implements logic.dao.IngredientDAO {
 
     @Override
     public void insertSupplyToRestaurant(Ingredient supply, Restaurant restaurant) throws DAOException {

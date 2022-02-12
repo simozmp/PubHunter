@@ -14,7 +14,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
-public class MenuItemDAOImpl extends DAOImpl implements logic.dao.MenuItemDAO {
+/**
+ * Implementation of a MenuItemDAO
+ */
+public class MenuItemDAOImpl extends JDBCDataAccessObjectImpl implements logic.dao.MenuItemDAO {
 
     private static final String CATEGORY_COLUMN_STRING = "category";
     private static final String DESCRIPTION_COLUMN_STRING = "description";

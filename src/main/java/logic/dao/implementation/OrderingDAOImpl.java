@@ -7,7 +7,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class OrderingDAOImpl extends DAOImpl implements logic.dao.OrderingDAO {
+/**
+ * Implementation of an OrderingDAO
+ */
+public class OrderingDAOImpl extends JDBCDataAccessObjectImpl implements logic.dao.OrderingDAO {
     @Override
     public void insert(Ordering ordering) throws DAOException {
 
