@@ -18,8 +18,10 @@ import logic.model.*;
 import view.javafx.desktop.DesktopOrderApplication;
 import view.javafx.mobile.MobileOrderApplication;
 
+import javax.imageio.ImageIO;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -34,16 +36,16 @@ public class DemoViewController {
     private static final String MOBILE_ENV = "MOBILE";
 
     @FXML
-    private void demoMobileOrderUC() throws AddressException, PwdHasherException, EnvironmentLoadException {
+    private void demoMobileOrderUC() throws AddressException, PwdHasherException, IOException {
         demoUC(MOBILE_ENV);
     }
 
     @FXML
-    private void demoDesktopOrderUC() throws AddressException, PwdHasherException, EnvironmentLoadException {
+    private void demoDesktopOrderUC() throws AddressException, PwdHasherException, IOException {
         demoUC(DESKTOP_ENV);
     }
 
-    private void demoUC(String environment) throws EnvironmentLoadException, AddressException, PwdHasherException {
+    private void demoUC(String environment) throws IOException, AddressException, PwdHasherException {
         Stage demoStage = (Stage) this.root.getScene().getWindow();
 
         consolePrintln("Populating db...");
@@ -94,7 +96,7 @@ public class DemoViewController {
      * @return The TableService object referring to the written data
      * @throws PwdHasherException if environment does not provide utils for hashing password
      */
-    public static TableService populateDBWithStubServiceData() throws AddressException, PwdHasherException {
+    public TableService populateDBWithStubServiceData() throws AddressException, PwdHasherException, IOException {
 
         TableService service;
 
@@ -119,6 +121,7 @@ public class DemoViewController {
         drinkItem.addIngredient(new Ingredient(sodaWaterString));
         drinkItem.addTag(alcoholicString);
         drinkItem.addTag("Cool ;)");
+        drinkItem.setPhoto(ImageIO.read(Objects.requireNonNull(DemoApplication.class.getResource("mojito.png"))));
 
         menuItemList.add(drinkItem);
 

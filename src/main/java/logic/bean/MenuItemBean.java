@@ -2,6 +2,7 @@ package logic.bean;
 
 import logic.model.MenuItem;
 
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class MenuItemBean implements PropertyChangeListener {
     private String category;
     private final List<String> tags;
     private boolean available;
+    private Image photo;
 
     public MenuItemBean(MenuItem reference) {
         //  Registering as a listener for the MenuItem
@@ -35,6 +37,7 @@ public class MenuItemBean implements PropertyChangeListener {
         this.price = reference.getPrice();
         this.available = reference.isAvailable();
         this.category = reference.getCategory();
+        this.photo = reference.getPhoto();
     }
 
     public double getPrice() {
@@ -65,12 +68,12 @@ public class MenuItemBean implements PropertyChangeListener {
         return tags.size();
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public boolean isAvailable() {
         return available;
+    }
+
+    public Image getPhoto() {
+        return photo;
     }
 
     @Override

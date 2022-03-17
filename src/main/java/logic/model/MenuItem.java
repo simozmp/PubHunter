@@ -1,5 +1,6 @@
 package logic.model;
 
+import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public abstract class MenuItem {
     private double price;
     private final List<String> tags;
     private int persistenceId;
+    private Image photo;
 
     protected MenuItem(String name, String category, String description, double price, int persistenceId) {
         this.propertyChangeSupport = new PropertyChangeSupport(this);
@@ -72,6 +74,10 @@ public abstract class MenuItem {
         return tags.get(index);
     }
 
+    public Image getPhoto() {
+        return photo;
+    }
+
     public void setName(String name) {
         String oldValue = this.name;
         this.name = name;
@@ -94,6 +100,10 @@ public abstract class MenuItem {
         double oldValue = this.price;
         this.price = price;
         propertyChangeSupport.firePropertyChange("price", oldValue, price);
+    }
+
+    public void setPhoto(Image photo) {
+        this.photo = photo;
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {

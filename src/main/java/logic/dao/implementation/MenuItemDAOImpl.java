@@ -1,11 +1,14 @@
 package logic.dao.implementation;
 
 import logic.dao.IngredientDAO;
+import logic.dao.MenuItemPhotoDAO;
 import logic.exception.DAOException;
 import logic.exception.DAOInsertOnExistingItemException;
 import logic.exception.DAOItemNotFoundException;
 import logic.model.*;
+import logic.model.MenuItem;
 
+import java.awt.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -78,6 +81,11 @@ public class MenuItemDAOImpl extends JDBCDataAccessObjectImpl implements logic.d
         if(item instanceof DrinkItem drinkItem)
             for(Ingredient ingredient : drinkItem.getIngredients())
                 ingredientDAO.addIngredientToMenuItemRecord(item.getRecordId(), ingredient);
+
+        if(item.getPhoto() != null) {
+            MenuItemPhotoDAO menuItemPhotoDAO = new MenuItemPhotoDAOImpl();
+            menuItemPhotoDAO.insert(item.getRecordId(), item.getPhoto());
+        }
     }
 
     @Override
@@ -99,6 +107,9 @@ public class MenuItemDAOImpl extends JDBCDataAccessObjectImpl implements logic.d
             resultSet = preparedStatement.executeQuery();
 
             MenuItem item;
+
+            //  A MenuItemPhotoDAO to load photos of items
+            MenuItemPhotoDAO menuItemPhotoDAO = new MenuItemPhotoDAOImpl();
 
             //  An IngredientDAO to load ingredients of drink items
             IngredientDAOImpl ingredientDAO = new IngredientDAOImpl();
@@ -130,6 +141,8 @@ public class MenuItemDAOImpl extends JDBCDataAccessObjectImpl implements logic.d
                             resultSet.getBoolean("availability"),
                             resultSet.getInt("id"));
 
+                Image photo = menuItemPhotoDAO.getByItemId(item.getRecordId());
+                item.setPhoto(photo);
 
                 StringTokenizer tagsTokenizer = new StringTokenizer(resultSet.getString("tags"));
                 //  Tokenizing tags and adding them to the item
