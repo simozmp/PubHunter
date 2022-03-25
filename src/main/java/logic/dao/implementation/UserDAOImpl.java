@@ -65,7 +65,7 @@ public class UserDAOImpl extends JDBCDataAccessObjectImpl implements logic.dao.U
 
         String userWithEmailString = "User with email \"";
 
-        User user = null;
+        User user;
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             //  Parsing arguments into query
@@ -127,7 +127,7 @@ public class UserDAOImpl extends JDBCDataAccessObjectImpl implements logic.dao.U
 
         String query = "SELECT * FROM (users JOIN restaurants on manager = email) WHERE id = ?";
 
-        User manager = null;
+        User manager;
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
@@ -155,7 +155,6 @@ public class UserDAOImpl extends JDBCDataAccessObjectImpl implements logic.dao.U
         } catch (ClassCastException e) {
             throw new DAOException("Password decoding error: ClassCastException");
         } catch (IOException e) {
-            e.printStackTrace();
             throw new DAOException("Password decoding error: IOException");
         } finally {
             this.disconnect();

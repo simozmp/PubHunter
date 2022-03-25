@@ -5,17 +5,15 @@ import logic.dao.MenuItemPhotoDAO;
 import logic.exception.DAOException;
 import logic.exception.DAOInsertOnExistingItemException;
 import logic.exception.DAOItemNotFoundException;
-import logic.model.*;
 import logic.model.MenuItem;
+import logic.model.*;
 
 import java.awt.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.StringTokenizer;
+import java.util.*;
 
 /**
  * Implementation of a MenuItemDAO
@@ -25,6 +23,7 @@ public class MenuItemDAOImpl extends JDBCDataAccessObjectImpl implements logic.d
     private static final String CATEGORY_COLUMN_STRING = "category";
     private static final String DESCRIPTION_COLUMN_STRING = "description";
     private static final String PRICE_COLUMN_STRING = "price";
+    private static final String THE_COCKTAIL_DB_ID_COLUMN_STRING = "the_cocktail_db_drink_id";
 
     @Override
     public void insert(MenuItem item, Restaurant restaurant) throws DAOException {
@@ -99,7 +98,7 @@ public class MenuItemDAOImpl extends JDBCDataAccessObjectImpl implements logic.d
                 "FROM menu_items LEFT JOIN non_drink_item_ingredients_string " +
                 "WHERE restaurant_fk=?";
 
-        ResultSet resultSet = null;
+        ResultSet resultSet;
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
@@ -116,13 +115,15 @@ public class MenuItemDAOImpl extends JDBCDataAccessObjectImpl implements logic.d
 
             while(resultSet.next()) {
 
-                if(!resultSet.getString("the_cocktail_db_drink_id").equals("")) {
+                Image photo = menuItemPhotoDAO.getByItemId(resultSet.getInt("id"));
+
+                if(!resultSet.getString(THE_COCKTAIL_DB_ID_COLUMN_STRING).equals("-1")) {
                     //  Creating a new DrinkItem
                     DrinkItem drinkItem = new DrinkItem(resultSet.getString("name"),
                             resultSet.getString(CATEGORY_COLUMN_STRING),
                             resultSet.getString(DESCRIPTION_COLUMN_STRING),
                             resultSet.getDouble(PRICE_COLUMN_STRING),
-                            resultSet.getInt("the_cocktail_db_drink_id"),
+                            resultSet.getInt(THE_COCKTAIL_DB_ID_COLUMN_STRING),
                             resultSet.getInt("id"));
 
                     //  Reading and adding ingredients to drinkItem
@@ -141,7 +142,6 @@ public class MenuItemDAOImpl extends JDBCDataAccessObjectImpl implements logic.d
                             resultSet.getBoolean("availability"),
                             resultSet.getInt("id"));
 
-                Image photo = menuItemPhotoDAO.getByItemId(item.getRecordId());
                 item.setPhoto(photo);
 
                 StringTokenizer tagsTokenizer = new StringTokenizer(resultSet.getString("tags"));
@@ -206,7 +206,7 @@ public class MenuItemDAOImpl extends JDBCDataAccessObjectImpl implements logic.d
     @Override
     public int getRestaurantIdForItem(MenuItem item) throws DAOException {
 
-        int result = -1;
+        int result;
 
         this.connect();
 
@@ -253,6 +253,8 @@ public class MenuItemDAOImpl extends JDBCDataAccessObjectImpl implements logic.d
 
             preparedStatement.setInt(6, item.getRecordId());
 
+            writeItemPhoto(item);
+
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DAOException("Unexpected SQLException while updating MenuItems: " + e.getMessage());
@@ -267,7 +269,7 @@ public class MenuItemDAOImpl extends JDBCDataAccessObjectImpl implements logic.d
     public int getItemId(MenuItem menuItem, Restaurant restaurant) throws DAOException {
         this.connect();
 
-        int id = -1;
+        int id;
 
         String query = "SELECT id FROM menu_items WHERE name=? AND restaurant_fk=?";
 
@@ -290,5 +292,18 @@ public class MenuItemDAOImpl extends JDBCDataAccessObjectImpl implements logic.d
         this.disconnect();
 
         return id;
+    }
+
+    public void writeItemPhoto(MenuItem item) throws DAOException {
+        MenuItemPhotoDAO menuItemPhotoDAO = new MenuItemPhotoDAOImpl();
+
+        Image photo = item.getPhoto();
+
+        if(photo != null)
+            try {
+                menuItemPhotoDAO.insert(item.getRecordId(), photo);
+            } catch(DAOInsertOnExistingItemException e) {
+                menuItemPhotoDAO.update(item.getRecordId(), photo);
+            }
     }
 }

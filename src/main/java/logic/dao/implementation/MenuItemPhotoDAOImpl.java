@@ -2,13 +2,10 @@ package logic.dao.implementation;
 
 import logic.dao.MenuItemPhotoDAO;
 import logic.exception.DAOException;
+import logic.exception.DAOInsertOnExistingItemException;
+import logic.utils.ImageUtils;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,15 +28,13 @@ public class MenuItemPhotoDAOImpl extends JDBCDataAccessObjectImpl implements Me
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if(resultSet.next())
-                result = getPhotoBufferedImage(resultSet.getBytes(1));
+                result = ImageUtils.bytesToBufferedImage(resultSet.getBytes(1));
 
         } catch (SQLException e) {
             throw new DAOException("SQLException in MenuItemPhotoDAOImpl.getByItemId()");
         } finally {
             this.disconnect();
         }
-
-        this.disconnect();
 
         return result;
     }
@@ -52,7 +47,32 @@ public class MenuItemPhotoDAOImpl extends JDBCDataAccessObjectImpl implements Me
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, itemId);
-            preparedStatement.setBytes(2, getPhotoByteArray(photo));
+            preparedStatement.setBytes(2, ImageUtils.imageToBytes(photo));
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            if(e.getMessage().contains("UNIQUE constraint failed"))
+                throw new DAOInsertOnExistingItemException("Photo for item already in db.");
+            else
+                throw new DAOException("SQLException in MenuItemPhotoDAOImpl.insert(). " +
+                    "Message: " + e.getMessage());
+        } finally {
+            this.disconnect();
+        }
+
+        this.disconnect();
+    }
+
+    @Override
+    public void update(int itemId, Image photo) throws DAOException {
+        this.connect();
+
+        String query = "UPDATE menu_items_photos SET photo = ? WHERE menu_item = ?";
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setBytes(1, ImageUtils.imageToBytes(photo));
+            preparedStatement.setInt(2, itemId);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -63,37 +83,5 @@ public class MenuItemPhotoDAOImpl extends JDBCDataAccessObjectImpl implements Me
         }
 
         this.disconnect();
-    }
-
-    public byte[] getPhotoByteArray(Image photo) throws DAOException {
-        byte[] result = null;
-
-        //  Converting Image to BufferedImage
-        BufferedImage bufferedImage = new BufferedImage(photo.getWidth(null), photo.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-        Graphics2D graphics2D = bufferedImage.createGraphics();
-        graphics2D.drawImage(photo, 0, 0, null);
-        graphics2D.dispose();
-
-        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
-            ImageIO.write(bufferedImage, "png", byteArrayOutputStream);
-
-            result = byteArrayOutputStream.toByteArray();
-        } catch (IOException e) {
-            throw new DAOException("There was an error during image encoding");
-        }
-
-        return result;
-    }
-
-    public BufferedImage getPhotoBufferedImage(byte[] photo) throws DAOException {
-        BufferedImage result = null;
-
-        try(ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(photo)) {
-            result = ImageIO.read(byteArrayInputStream);
-        } catch (IOException e) {
-            throw new DAOException("There was an error during image decoding");
-        }
-
-        return result;
     }
 }

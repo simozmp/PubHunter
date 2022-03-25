@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?><?import javafx.scene.control.*?><?import javafx.scene.image.ImageView?><?import javafx.scene.layout.*?><?import javafx.scene.shape.Rectangle?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Rectangle?>
 <AnchorPane fx:id="root" prefHeight="100.0" prefWidth="357.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <Rectangle height="90.0" styleClass="item-background" width="357.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0" />
    <Rectangle fx:id="itemAccentRectangle" height="90.0" layoutY="5.0" styleClass="item-accent" visible="false" width="7.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0" />
    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="357.0" spacing="10.0">
       <padding>
-         <Insets bottom="10.0" left="0" right="0" top="10.0" />
+         <Insets bottom="10.0" left="17.0" top="10.0" />
       </padding>
-      <ImageView fx:id="itemImageView" fitHeight="80.0" fitWidth="80.0" />
+      <ImageView fx:id="itemImageView" fitHeight="70.0" fitWidth="70.0" />
       <Label fx:id="itemNameLabel" style="-fx-font-size: 16" styleClass="dark-label" text="Item name" />
       <Pane prefHeight="50.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
       <Label fx:id="priceLabel" style="-fx-font-size: 16" styleClass="dark-label" text="€TOT" />

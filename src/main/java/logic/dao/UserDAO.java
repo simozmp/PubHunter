@@ -1,7 +1,6 @@
 package logic.dao;
 
 import logic.exception.DAOException;
-import logic.model.PasswordTrace;
 import logic.model.User;
 
 /**

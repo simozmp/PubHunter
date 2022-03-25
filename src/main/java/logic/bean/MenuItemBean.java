@@ -1,5 +1,6 @@
 package logic.bean;
 
+import logic.model.DrinkItem;
 import logic.model.MenuItem;
 
 import java.awt.*;
@@ -20,7 +21,8 @@ public class MenuItemBean implements PropertyChangeListener {
     private String category;
     private final List<String> tags;
     private boolean available;
-    private Image photo;
+    private final int theCocktailDBId;
+    private final Image photo;
 
     public MenuItemBean(MenuItem reference) {
         //  Registering as a listener for the MenuItem
@@ -38,6 +40,11 @@ public class MenuItemBean implements PropertyChangeListener {
         this.available = reference.isAvailable();
         this.category = reference.getCategory();
         this.photo = reference.getPhoto();
+
+        if(reference instanceof DrinkItem drinkReference)
+            this.theCocktailDBId = drinkReference.getTheCocktailDBId();
+        else
+            this.theCocktailDBId = -1;
     }
 
     public double getPrice() {
@@ -70,6 +77,10 @@ public class MenuItemBean implements PropertyChangeListener {
 
     public boolean isAvailable() {
         return available;
+    }
+
+    public int getTheCocktailDBId() {
+        return theCocktailDBId;
     }
 
     public Image getPhoto() {

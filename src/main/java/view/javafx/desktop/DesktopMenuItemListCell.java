@@ -5,11 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import logic.bean.MenuItemBean;
+import view.javafx.PhotoItemListCell;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,9 +22,10 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DesktopMenuItemListCell extends ListCell<MenuItemBean> {
+public class DesktopMenuItemListCell extends ListCell<MenuItemBean> implements PhotoItemListCell {
     @FXML private StackPane root;
     @FXML private WebView infoWebView;
+    @FXML private ImageView imageView;
     @FXML private Label nameLabel;
     @FXML private Label descriptionLabel;
     @FXML private Label ingredientsLabel;
@@ -100,6 +103,8 @@ public class DesktopMenuItemListCell extends ListCell<MenuItemBean> {
 
             this.setGraphic(root);
 
+            drawItemPhoto(this.imageView, bean);
+
             this.setFocusTraversable(false);
         } else
             this.setGraphic(null);
@@ -120,5 +125,4 @@ public class DesktopMenuItemListCell extends ListCell<MenuItemBean> {
             this.getListView().getSelectionModel().clearSelection();
         }
     }
-
 }
