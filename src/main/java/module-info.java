@@ -9,6 +9,7 @@ module PubHunter {
     requires java.desktop;
     requires java.sql;
     requires org.json;
+    requires javafx.swing;
 
     exports view;
     opens view to javafx.fxml;

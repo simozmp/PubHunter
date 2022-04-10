@@ -9,4 +9,6 @@ public interface MenuItemPhotoDAO extends JDBCDataAccessObject {
     Image getByItemId(int itemId) throws DAOException;
 
     void insert(int itemId, Image photo) throws DAOException;
+
+    void update(int itemId, Image photo) throws DAOException;
 }

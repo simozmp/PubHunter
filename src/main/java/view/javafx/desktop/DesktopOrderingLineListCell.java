@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import logic.bean.OrderingLineBean;
+import view.javafx.JFXMLApplication;
 import view.javafx.OrderingLineListCell;
 
 import java.text.DecimalFormat;
@@ -63,7 +64,7 @@ public class DesktopOrderingLineListCell extends OrderingLineListCell {
             editButton.setOnMouseClicked(mouseEvent -> onEditButtonMouseClick(editItemHBox));
 
             this.picImageView.setImage(new Image(
-                    Objects.requireNonNull(getClass().getResource("dish.png")).toExternalForm()));
+                    Objects.requireNonNull(JFXMLApplication.class.getResource("dish.png")).toExternalForm()));
             this.nameLabel.setText(bean.getItemName());
             this.descriptionLabel.setText(bean.getDescription());
             this.priceLabel.setText("€ " + new DecimalFormat("#.00#").format(bean.getPrice()));

@@ -131,6 +131,7 @@ public class MobileOrderViewController extends OrderJFXViewController {
         itemsListView.setVisible(false);
         orderingOverviewAnchorPane.setVisible(false);
 
+        orderingCountButton.setVisible(true);
         reviewOrderingButton.setVisible(true);
         sectionListView.setVisible(true);
 
